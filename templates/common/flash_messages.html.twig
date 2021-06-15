@@ -1,0 +1,17 @@
+<div class="container mt-10">
+{#    {{ dump(app.flashes) }}#}
+    {% for message in app.flashes('fail') %}
+        <div class="alert alert-danger alert-bordered">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+            <span class="text-semibold">{{ message }}</a></span>
+        </div>
+    {% endfor %}
+
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-bordered">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+            <span class="text-semibold">{{ message }}</a></span>
+        </div>
+    {% endfor %}
+</div>

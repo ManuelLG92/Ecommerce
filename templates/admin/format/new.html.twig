@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/format/_form.html.twig' with { 'action' : path('create_format_post') , modo : "Crear"} %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/category/CreateAndEditZoneForm.js') }}"></script>
+{% endblock %}

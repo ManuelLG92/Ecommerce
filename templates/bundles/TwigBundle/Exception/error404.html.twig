@@ -1,0 +1,23 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}Error 404{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+    {% include 'bundles/TwigBundle/Exception/_template_errors.html.twig'
+        with { error_code : 404,
+                message : "Pagina no encontrada",
+                description : "Ha habido un error sirviendo el recurso que estas solicitando. Intentalo en unos minutos "} %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}

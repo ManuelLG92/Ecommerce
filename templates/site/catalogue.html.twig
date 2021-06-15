@@ -1,0 +1,49 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Catalogos</li>
+            </ol>
+        </nav>
+        <div class="text-center">
+        <h1>Decorados 20 x 60</h1>
+        <h3>3º Fuego</h3>
+        </div>
+
+        <div class="col-md-10 mx-auto mt-3">
+            <div class="row">
+            {% for i in 1 ..10 %}
+
+               <div class="col-md-5 text-center mx-auto">
+                   <div class="card">
+                       <img src="{{ asset('product_images/main-606f1b6f0159c.png') }}" class="card-img-top" alt="...">
+                       <div class="card-body">
+                           <h5 class="card-title">Card title</h5>
+                           <p class="card-text">Lorem ipsum dolor sit amet.</p>
+                       </div>
+                   </div>
+               </div>
+
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(() => {
+            $('.nav-bar-items a').removeClass('active-nav-page-border font-sofia-bold');
+            $('.catalogue').addClass('active-nav-page-border font-sofia-bold')
+        })
+
+    </script>
+
+
+{% endblock %}

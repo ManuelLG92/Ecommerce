@@ -1,0 +1,68 @@
+{#{% set numero_total_paginas = (numero_total_elementos / elementos_por_pagina)
+    |round(0, 'ceil') %}#}
+{% set parameters = route_parameters is defined ? route_parameters : {} %}
+{% set route_name = route_name is defined ?
+    route_name : app.request.attributes.get('_route') %}
+{% set maximum_numero = 5 %}
+{% set nearbyFields = 2 %}
+
+{% if number_pages > 1 %}
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if current_page > 1 %}
+{#            <li class="page-item {{ current_page == 1 ? 'disabled' }}">#}
+                <li class="page-item">
+                <a class="page-link font-sofia-bold"
+                   href="{{
+                   path(route_name,
+                       {
+                           page: current_page - 1 < 1 ? 1 : current_page - 1
+                       }|merge(parameters)
+                   )
+                   }}">
+{#                    &laquo;#}
+                    <span>&lt;</span>
+{#                    <span>Anterior</span>#}
+                </a>
+            </li>
+            {% endif %}
+
+
+                {% for i in 1..number_pages  %}
+                    <li class="page-item {{ current_page == i ? 'active' }}">
+                        <a class="page-link font-sofia-bold"
+                           href="{{
+                           path(route_name,
+                               {
+                                   page:i
+                               }|merge(parameters)
+                           )
+                           }}">
+                            <span>{{ i }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+
+
+            {% if current_page < number_pages %}
+{#            <li class="page-item {{ current_page == number_pages  ? 'disabled' }} font-sofia-bold" >#}
+            <li class="page-item font-sofia-bold" >
+                <a class="page-link"
+                   href="{{
+                   path(route_name,
+                       {
+                           page: current_page + 1 <= number_pages  ? current_page + 1 : current_page
+                       }|merge(parameters)
+                   )
+                   }}">
+{#                    &raquo;#}
+                    <span>&gt;</span>
+{#                    <span>Siguiente</span>#}
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
+

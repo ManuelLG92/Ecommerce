@@ -1,0 +1,284 @@
+<form action="{{ action }}" method="post" id="userFormID">
+    {% if modo == 'Editar' %}
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="idClient" value="{{ client.id }}">
+    {% endif %}
+
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+
+            <h1 class="panel-title text-center">
+                {{ modo }} cliente
+            </h1>
+            <hr>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <fieldset>
+                        {# <legend class="text-semibold"><i class="icon-reading position-left"></i> Personal details</legend> #}
+                        <h2 class="text-center">Datos Personales</h2>
+                        <div class="form-group ">
+                            <div class="form-group mb-10">
+                                <label class="col-lg-3 control-label" for="name">Nombre: <span
+                                            class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Ej. Juan"
+                                           value="{{ client.name }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="surname">Apellidos: <span
+                                            class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="text" name="surname" id="surname" class="form-control"
+                                           placeholder="Ej. Perez "
+                                           value="{{ client.surname }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="companyName">Compañia: <span
+                                            class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="text" name="companyName" id="companyName" class="form-control"
+                                           placeholder="Ej. Ferreteria SL"
+                                           value="{{ client.companyName }}" required>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="nif">NIF: <span class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="text" name="nif" id="nif" class="form-control"
+                                           placeholder="Ej. B4509-OPX"
+                                           value="{{ client.NIF }}" required>
+                                </div>
+                            </div>
+                            <hr class="line_break">
+
+                            <h2 class="text-center">Contacto</h2>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="phone">Telefono: <span
+                                            class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="text" name="phone" id="phone" class="form-control"
+                                           placeholder="Ej. 6438752"
+                                           value="{{ client.phone }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="email">Email: <span
+                                            class="text-danger">*</span></label>
+                                <div class="col-lg-9 mb-20">
+                                    <input type="email" name="email" id="email" class="form-control"
+                                           placeholder="Ej. example@ex.es"
+                                           value="{{ client.email }}" required>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-5 col-md-offset-1">
+                    <fieldset>
+
+                        <h2 class="text-center">Domicilio</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="address">Dirección <span
+                                        class="text-danger">*</span></label>
+                            <div class="col-lg-9 mb-20">
+                                <input type="text" name="address" id="address" class="form-control"
+                                       placeholder="Ej. Calle Juan 2 / Avenida Pedro 20 piso 2 puerta B"
+                                       value="{{ client.address }}" required>
+                            </div>
+
+                        </div>
+                        {% if client.country.id == 1 %}
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="country">Pais: <span
+                                            class="text-danger">*</span></label>
+
+                                <div class="col-lg-9 mb-20">
+                                    <select data-placeholder="" class="form-control" name="country" id="country"
+                                            required="required">
+                                        {% for country in countries %}
+                                            {% set selected = '' %}
+                                            {% if client.country.id == country.id %}
+                                                {% set selected = 'selected' %}
+                                                <option value="{{ country.id }}" {{ selected }}>{{ country.countryName }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="regionAndCityDiv">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="region">Region: <span
+                                                class="text-danger">*</span></label>
+
+                                    <div class="col-lg-9 mb-20" id="regionDiv">
+                                        <select data-placeholder="" class="form-control" name="region" id="region"
+                                                required="required">
+                                            {% for region in regions  %}
+                                                {% set selected = '' %}
+                                                {% if client.region == region.id %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+                                                <option value="{{ region.id }}" {{ selected }}>{{ region.name }}</option>
+                                            {% endfor %}
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="city">Ciudad: <span
+                                                class="text-danger">*</span></label>
+
+                                    <div class="col-lg-9 mb-20" id="cityDiv">
+
+                                        <select data-placeholder="" class="form-control" name="city" id="city"
+                                                required="required">
+                                            {% for city in cities %}
+                                                {% set selected = '' %}
+                                                {% if client.city == city.id %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+                                                <option value="{{ city.id }}" {{ selected }}>{{ city.name }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="country">Pais: <span
+                                            class="text-danger">*</span></label>
+
+                                <div class="col-lg-9 mb-20">
+                                    <select data-placeholder="" class="form-control" name="country" id="country"
+                                            required="required">
+                                        {% for country in countries %}
+                                            {% set selected = '' %}
+                                            {% if client.country.id == country.id %}
+                                                {% set selected = 'selected' %}
+                                                <option value="{{ country.id }}" {{ selected }}>{{ country.countryName }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="regionAndCityDiv">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="region">Region: <span
+                                                class="text-danger">*</span></label>
+
+                                    <div class="col-lg-9 mb-20" id="regionDiv">
+                                        <input type="text" name="region" id="region" class="form-control" value="{{ client.region }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="city">Ciudad: <span
+                                                class="text-danger">*</span></label>
+
+                                    <div class="col-lg-9 mb-20" id="cityDiv">
+                                        <input type="text" name="city" id="city" class="form-control" value="{{ client.city }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="postalCode">Codigo postal: <span
+                                        class="text-danger">*</span></label>
+                            <div class="col-lg-9 mb-20">
+                                <input type="text" name="postalCode" id="postalCode" class="form-control"
+                                       placeholder="Ej. 118942"
+                                       value="{{ client.postalCode }}" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="aditionalInformation">Informacion adicional
+                            </label>
+                            <div class="col-lg-9 mb-20">
+                                <textarea name="aditionalInformation" class="form-control" id="aditionalInformation"
+                                          cols="5" rows="5">{{ client.additionalInformation }}</textarea>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <br><br>
+                        <div class="text-center">
+                            <div class="col-lg-6 col-xs-6 mb-20 mt-20">
+                                <a href="{{ path('get_all_clients') }}"
+                                   onclick="return confirm('Estas seguro de abandonar la pagina?\nLos cambios que hayas realizado no se guardaran.')">
+                                    <button type="button" class="btn btn-lg btn-danger mb-20"><i
+                                                class="icon-cancel-circle2 position-left"></i>Cancelar
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-lg-6 col-xs-6 mb-20 mt-20">
+                                <button type="submit" id="btnFormUser" class="btn btn-lg btn-primary mb-20">
+                                    {{ modo }} usuario <i class="icon-arrow-right14 position-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        {# <div class="text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <a href="{{ path('get_all_products') }}"
+                           onclick="return confirm('Estas seguro de abandonar la pagina?\nLos cambios que hayas realizado no se guardaran.')">
+                            <button type="button" class="btn btn-lg btn-danger mb-20"><i
+                                        class="icon-cancel-circle2 position-left"></i>Cancelar
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <button type="submit" class="btn btn-lg btn-primary mb-20">
+                            Crear producto <i class="icon-arrow-right14 position-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+            </div>
+
+        </div> #}
+    </div>
+
+</form>

@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+        {% block stylesheets %}
+            {# <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"> #}
+            {{ parent() }}
+            <!-- Global stylesheets -->
+
+            <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+            <!-- /global stylesheets -->
+            {# {{ encore_entry_link_tags('app') }} #}
+
+
+        {% endblock %}
+
+{% block body %}
+
+    <!-- Basic datatable -->
+
+    <div class="panel panel-flat container">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center">Catalogos página principal</h1>
+        </div>
+
+
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center"><h2>Catálogo</h2></th>
+                        <th class="text-center"><h2>Editar</h2></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+
+                    <td class="text-center" style="width: 50%">
+                        <a href="{{ asset('pdf_catalogues/estilker.pdf') }}" download="estilker_2021"
+                           class="text-dark" title="Descargar Catalogo Estilker 2021">
+                            <i class="icon-file-pdf me-2 text-danger"></i> CATALOGO ESTILKER 2021
+                        </a>
+                    </td>
+
+                    <td style="width: 50%">
+
+                        <div>
+                            <form action="{{ path('edit_catalogue_put') }}" method="post" enctype="multipart/form-data"
+                                  onsubmit="return confirm('Estas seguro de editar el catalogo de ESTILKER?');">
+                                <div class="row">
+                                <div class="col-xs-6">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" name="name" value="estilker">
+                                    <input type="file" name="pdf" class="file-styled" required>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button class="btn btn-lg btn-warning" type="submit">Editar</button>
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+
+
+                </tr>
+
+
+                <tr>
+                    <td class="text-center" style="width: 50%">
+                        <a href="{{ asset('pdf_catalogues/lastdecor.pdf') }}" download="lastdecor_2021"
+                           title="Descargar Catalogo Lastdecor 2021" class="text-dark">
+                            <i class="icon-file-pdf me-2 text-danger"></i> CATALOGO LASTDECOR GOLD 2021
+                        </a>
+                    </td>
+
+                    <td style="width: 50%">
+                        <div>
+                            <form action="{{ path('edit_catalogue_put') }}" method="post" enctype="multipart/form-data"
+                                  onsubmit="return confirm('Estas seguro de editar el catalogo de LASTDECOR?');">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <input type="hidden" name="name" value="lastdecor">
+                                        <input type="file" name="pdf" class="file-styled" required>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button class="btn btn-lg btn-warning" type="submit">Editar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+
+            {% if extra_catalogues|length > 0 %}
+                <hr>
+                <h1 class="text-center mt-3">Catálogos zona privada</h1>
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center"><h2>Catálogo</h2></th>
+                        <th class="text-center"><h2>Editar</h2></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for extra_catalogue in extra_catalogues %}
+                    {% set agentVisibility = '' %}
+                    {% set agentVisibilityClass = '' %}
+                <tr>
+                    <td class="text-center" style="width: 50%">
+                        {% set catalogueName = extra_catalogue.url|split('-id-')|first %}
+                        <a href="{{ asset('pdf_catalogues/'~ extra_catalogue.url) }}" download="{{ catalogueName }}"
+                           title="{{ 'Descargar Catalogo' ~ catalogueName }}" class="text-dark">
+                            <i class="icon-file-pdf me-2 text-danger"></i> CATALOGO {{ catalogueName|upper }}
+                        </a>
+                    </td>
+
+                    <td style="width: 50%">
+
+                        {% if extra_catalogue.hasAgentVisibility == 1 %}
+                            {% set agentVisibility = 'checked' %}
+                            {% set agentVisibilityClass = 'text-success' %}
+                        {% else %}
+                            {% set agentVisibility = '' %}
+                            {% set agentVisibilityClass = 'text-danger' %}
+                        {% endif %}
+                        <div class="row">
+
+                            <form action="{{ path('admin_edit_extra_catalogue_put', { 'id' : extra_catalogue.id} ) }}" method="post" enctype="multipart/form-data"
+                                  onsubmit="return confirm({{ 'Estas seguro de editar este catalogo ?' }});">
+                            <div class="col-xs-6 col-sm-4  mt-20 mb-20">
+                                <label class="{{ agentVisibilityClass }}" for="{{ 'agent' ~ extra_catalogue.id }}">
+                                    Agentes
+                                    <input class="{{ agentVisibilityClass }}" type="checkbox"
+                                           name="agent" id="{{ 'agent'~ extra_catalogue.id }}" {{ agentVisibility }}>
+                                </label>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-4 text-center mt-20 mb-20">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="file" name="catalogue" class="file-styled">
+                            </div>
+
+                            <div class="col-xs-6 col-sm-2 text-center  mt-20 mb-20">
+
+                                <button class="btn btn-warning my-auto" type="submit">Editar</button>
+
+                            </div>
+
+                            </form>
+                            <div class="col-xs-6 col-sm-2 text-center  mt-20 mb-20">
+                            <form action="{{ path('delete_extra_catalogue', {'id': extra_catalogue.id}) }}" method="post"
+                                  onsubmit="return confirm('Estas seguro de borrar este catálogo?');">
+                                <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ extra_catalogue.id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-danger" type="submit">Eliminar</button>
+                            </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <div class="text-center mt-20 mb-20">
+            <button class="btn btn-primary" id="newCatalogueBtn">Agregar   <i class="icon-chevron-down"></i></button>
+        </div>
+    </div>
+
+    <div class="panel panel-flat container" id="newCatalogueDiv">
+        <div class="panel-heading text-center">
+            <h1 class="panel-title text-center">Agregar nuevo catalogo</h1>
+        </div>
+
+    <div class="row mb-20">
+        <div class="col-md-4 mx-auto">
+            <span></span>
+        </div>
+
+        <div class="col-md-4 mx-auto">
+            <form action=" {{ path('admin_add_extra_catalogue_post') }}" method="post" id="newCatalogueForm" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label class="control-label">Catalogo PDF <span class="text-danger-800">*</span></label>
+                    <input type="file" name="catalogue" id="catalogue" class="form-control file-styled" required>
+                </div>
+                <div class="checkbox">
+                    <label for="agent">
+                        <input type="checkbox" name="agent" id="agent">
+                        Disponible para agentes?
+                    </label>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="icon-add-to-list mr-10"></i>Guardar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="col-md-4 mx-auto">
+            <span></span>
+        </div>
+
+    </div>
+    </div>
+
+    {# <span>
+                        <button type="button" class="btn btn-xs btn-danger" onclick="SubmitFormDeleteItem({{ 'deleteZone' ~ zone.id }})"><i class="icon-eraser position-left"></i>Borrar</button>
+                    </span>
+                    <form method="post" action="{{ path('delete_zone', {'id': zone.id}) }}" id="{{ 'deleteZone' ~ zone.id }}"
+                          onsubmit="return confirm('Estas seguro de borrar esta zona?');">
+                        <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ zone.id) }}">
+                        <input type="hidden" name="_method" value="DELETE"></form> #}
+
+    <!-- /basic datatable -->
+    {#
+    {% include 'category/_form.html.twig' with { 'action' : path('create_zone_post') , modo : "Crear"} %} #}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+    <script src=" {{ asset('js/app/utils/DeleteFormEntity.js') }}"></script>
+    <script src="{{ asset('js/app/utils/adminCatalogueHelper.js') }}"></script>
+
+
+{% endblock %}
+

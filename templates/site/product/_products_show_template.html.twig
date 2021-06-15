@@ -1,0 +1,267 @@
+<span data-bs-toggle="modal" id="show-loading" data-bs-target="#staticBackdrop"></span>
+
+<!-- Modal -->
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div>
+            <img  src="{{ asset('images/spinner_estilker_color.svg') }}" alt="Loading">
+        </div>
+
+
+    </div>
+</div>
+<div class="d-none d-md-block">
+    <div class="text-end mb-3">
+        <button type="button" class="btn fs-6" id="download-catalogue"
+                data-bs-toggle="modal" data-bs-target="#downloadPdf">
+{#            <img class="me-2" src="{{ asset('images/download-cloud.png') }}" alt="Descarga">#}
+            <i class="icon-cloud-download me-2"></i>DESCARGAR CATÁLOGOS PDF
+        </button>
+    </div>
+</div>
+<div class="d-md-none">
+    <div class="col-10 mx-auto mb-3">
+        <div class="d-grid gap-2">
+            <button type="button" class="btn" id="download-catalogue"
+                    data-bs-toggle="modal" data-bs-target="#downloadPdf">
+{#                <img class="me-2" src="{{ asset('images/download-cloud.png') }}" alt="Descarga">#}
+                <i class="icon-cloud-download me-2"></i>DESCARGAR CATÁLOGOS PDF
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+{#<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#downloadPdf">
+    Launch demo modal
+</button>#}
+
+<!-- Modal -->
+<div class="modal fade" id="downloadPdf" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLabel">Catálogos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="text-center">
+                    <a href="{{ asset('pdf_catalogues/lastdecor.pdf') }}" download="lastdecor_2021"
+                        class="text-dark">
+                        <i class="icon-file-pdf me-2 text-danger"></i>CATALOGO LASTDECOR GOLD 2021
+                    </a>
+                </div>
+                <br>
+                <div class="text-center">
+                    <a href="{{ asset('pdf_catalogues/estilker.pdf') }}" download="estilker_colombia_2021"
+                       class="text-dark">
+                        <i class="icon-file-pdf me-2 text-danger"></i>CATALOGO ESTILKER COLOMBIA 2021
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn estilker-color text-white" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set checked = '' %}
+{# ---------------  Start mobile and tablet view  ---------------------#}
+
+{{ include('site/product/_mobile_products_show_template.html.twig') }}
+{# ---------------  End mobile and tablet view  ---------------------#}
+
+
+{# ----------------------- Computer view  ---------------------------#}
+<div class="d-none d-lg-block">
+
+    <div class="row">
+        {# ---------------- Start Filters ----------------#}
+        <div class="col-md-3 ">
+            <div  tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+
+                <div class="offcanvas-body px-0 filters">
+                    <form action="{{ path('filter_by') }}" method="post" id="filterFormMedia">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+
+                            <li>
+                        <span href="#" class="nav-link text-truncate text-decoration-none text-dark">
+                           <span class="ms-1 font-sofia-bold">Zona</span></span>
+                                {% set checked = "" %}
+                                {% for zone in zones %}
+
+                                    {% if zone.id == selectedZone %}
+
+                                        {% set checked = "checked" %}
+                                    {% else %}
+                                        {% set checked = "" %}
+                                    {% endif %}
+
+                                    <div class="ms-4">
+                                        <div class="">
+                                            <input class="" type="radio" name="zone" value="{{ zone.id }}"
+                                                   id="{{ 'zoneScreen'~ zone.id }}"  {{ checked }} required>
+                                            <label class="" for="{{ 'zoneScreen'~ zone.id }}">
+                                                {{ zone.name }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+
+                                {% set checked = "" %}
+
+                                {% if selectedZone == 0 %}
+                                    {% set checked = "checked" %}
+                                {% endif %}
+                                <div class="ms-4">
+                                    <div class="">
+                                        <input class="" type="radio" name="zone" value="0" id="zoneScreenAll" {{ checked }}>
+                                        <label class="" for="zoneScreenAll">
+                                            Todos
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li>
+                                {% set checked = "" %}
+                        <span href="#" class="nav-link text-truncate">
+                            <i class="fs-5 "></i><span class="ms-1 font-sofia-bold">Acabado</span></span>
+                                <div class="ms-4">
+                                    {% for material in materials %}
+
+                                            {% if material.id == selectedMaterials %}
+                                                {% set checked = "checked" %}
+                                            {% endif %}
+
+                                        <div class="">
+                                            <input class="" type="radio" name="material" value="{{ material.id }}" id="{{'materialScreen'~ material.id }}"
+                                                    {{ checked }} required>
+                                            <label class="" for="{{'materialScreen'~ material.id }}">
+                                                {{ material.name }}
+                                            </label>
+                                        </div>
+
+                                        {#<div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="{{ 'material' ~ material.id }}"
+                                                   name="material[]" value="{{ material.id }}" {{ checked }}>
+                                            <label class="form-check-label" for="{{ 'material' ~ material.id }}">
+                                                {{ material.name }}
+                                            </label>
+                                        </div>#}
+                                        {% set checked = "" %}
+                                    {% endfor %}
+
+                                    {% if selectedMaterials == 0 %}
+                                        {% set checked = "checked" %}
+                                    {% endif %}
+                                        <div class="">
+                                            <input class="" type="radio" name="material" value="0" id="materialScreenAll" {{ checked }}>
+                                            <label class="form-check-label" for="materialScreenAll">
+                                                Todos
+                                            </label>
+                                        </div>
+                                </div>
+
+                            </li>
+
+                            <li>
+                                {% set checked = "" %}
+                        <span href="#" class="nav-link text-truncate">
+                            <i class="fs-5 bi-grid"></i><span class="font-sofia-bold">Formato</span></span>
+                                <div class="ms-4">
+                                    {% if selectedFormats|length == 0 %}
+                                        {% set checked = "checked" %}
+                                    {% endif %}
+                                    <div class="">
+                                        <input class="" type="checkbox" id="allFormatsScreen"
+                                               name="format" value="0" {{ checked }}>
+                                        <label class="form-check-label" for="allFormatsScreen">
+                                            Todos
+                                        </label>
+                                    </div>
+                                    {% set checked = "" %}
+                                    <div id="formatOptions">
+                                    {% for format in formats %}
+                                        {% for selectedFormat in selectedFormats%}
+                                            {% if format.id == selectedFormat %}
+                                                {% set checked = "checked" %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div class="">
+                                            <input class="" type="checkbox" id="{{ 'formatScreen'~format.id }}"
+                                                   name="format[]" value="{{ format.id }}" {{ checked }}>
+                                            <label class="form-check-label" for="{{ 'formatScreen'~format.id }}">
+                                                {{ format.name }}
+                                            </label>
+                                        </div>
+                                        {% set checked = "" %}
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+            {#            <div class="text-center mt-3">
+                            <div class="d-flex flex-wrap justify-content-around">
+                                <button type="submit" class="btn btn estilker-color text-white  fs-6 mt-2">Buscar</button>
+                                <button type="reset" class="btn btn btn-outline-danger mt-2 fs-6">Limpiar</button>
+                            </div>
+                        </div>#}
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        {# ---------------- End Filters ------------------#}
+
+
+        {# ---------------- Start Products ----------------#}
+        <div class="col-md-9 mx-auto mt-4">
+            <div class="row">
+                {% for product in products %}
+                    {#                {{ dump(product.imageCover) }}#}
+                <div class="col-sm-5 ms-5 me-2 row-image-height-show mb-5">
+                    <div class="image-row-show">
+                        <div class="center-row-image">
+                            <a href="{{ path('site_product_show', {'id' : product.id}) }}" class="text-decoration-none text-dark">
+                                <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                     src="{{ asset('product_images/' ~ product.imageCover ) }}"
+                                     alt="ProductImage" class="image-show">
+                                </a>
+                        </div>
+                    </div>
+                    <div class="image-row-description-show">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.idFormat.name }} cm</p>
+                    </div>
+        {#            <div class="col-md-6 mx-auto my-auto">
+                        <div class="card model-image">
+                            <a href="{{ path('site_product_show', {'id' : product.id}) }}" class="text-decoration-none text-dark">
+                                <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/' ~ product.imageCover ) }}"
+                                     class="card-img-top" alt="ProductImage" width="100%" >
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.idFormat.name }} cm</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>#}
+                </div>
+                {% else %}
+                    <h1>Aun no tenemos productos para esta busqueda</h1>
+                {% endfor %}
+
+        </div>
+        {# ---------------- End Products ----------------#}
+    </div>
+
+</div>
+
+{# ---------------------End Computer view  -------------------------#}
+<!-- Button trigger modal -->
+

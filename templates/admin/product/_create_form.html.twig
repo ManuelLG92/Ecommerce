@@ -1,0 +1,419 @@
+<form class="form-horizontal" action="{{ action }}" id="formTest" method="post" onsubmit="return CheckForm()"
+      enctype="multipart/form-data">
+    {# onsubmit="CheckForm(); return false" #}
+    {% if modo == 'edit' %}
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="idProduct" value="{{ product.id }}">
+    {% endif %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+
+            <h1 class="panel-title text-center">
+                    Crear producto
+            </h1>
+            <hr>
+
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <fieldset>
+                        {# <legend class="text-semibold"><i class="icon-reading position-left"></i> Personal details</legend> #}
+                        <h2>Producto</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Producto: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="decorated" id="decorated"
+                                        required="required">
+                                    {% if decorated|length > 1 %}
+                                     <option selected>-- Decorado --</option>
+                                    {% endif %}
+{#                                    <option value="">-- Decorado --</option>#}
+                                    {% for decorate in decorated %}
+
+                                        <option value="{{ decorate.id }}">{{ decorate.name }}</option>
+                                    {% endfor %}
+
+
+                                </select>
+                            </div>
+                            {# <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Decorado"
+                                           value="{{ product.name }}"> #}
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="name">Nombre: <span class="text-danger">*</span></label>
+                            <div class="col-lg-9">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Ej. Azulejo"
+                                       value="{{ product.name }}" required autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="reference">Referencia: <span class="text-danger">*</span></label>
+                            <div class="col-lg-9">
+                                <input type="text" name="reference" id="reference" class="form-control"
+                                       placeholder="Ej. AZW321"
+                                       value="{{ product.reference }}" required>
+
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <h2>Caracteristicas :</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="format">Formato: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="format" id="format"
+                                        required="required">
+                                    {% if formats|length > 1 %}
+                                    <option value="">-- Formato --</option>
+                                    {% endif %}
+                                    {% for format in formats %}
+
+                                        <option value="{{ format.id }}">{{ format.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Set :</label>
+                            <div class="col-lg-9">
+                                <div class="row">
+                                        <div class="col-xs-5 checkbox">
+                                            <label class="col-md-2" for="">Set<input type="checkbox" name="set"
+                                                                                     id="setCheckBox">
+                                            </label>
+                                        </div>
+                                        <div id="quantitySetDiv">
+                                            <div class="col-xs-3">
+                                                {# <label class="control-label mt-10" for="setQuantity">Cantidad: </label> #}
+                                            </div>
+                                            <div class="col-xs-3">
+                                                {# <select name="setQuantity" id="setQuantity" class="select selectSet">
+                                                    <option value="1">1</option>
+                                                    {% for i in range (1,20) %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                    {% endfor %}
+                                                </select> #}
+                                                {# #}
+                                                <input type="text" name="setQuantity" id="setQuantity" value="1"
+                                                       hidden>
+                                            </div>
+                                        </div>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="box">Caja: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="box" id="box"
+                                        required="required">
+                                    {% for i in range (1,24) %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="use">Uso: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="use" id="use"
+                                        required="required">
+                                    {% if uses|length > 1 %}
+                                    <option value="">-- Uso --</option>
+                                    {% endif %}
+                                    {% for use in uses %}
+                                        <option value="{{ use.id }}" >{{ use.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="zone">Zona: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="zone" id="zone"
+                                        required="required">
+                                    {% if zones|length > 1 %}
+                                    <option value="">-- Zona --</option>
+                                    {% endif %}
+                                    {% for zone in zones %}
+
+                                        <option value="{{ zone.id }}">{{ zone.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="material">Acabado: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="material" id="material"
+                                        required="required">
+                                    {% if materials|length > 1 %}
+                                    <option value="">-- Acabado --</option>
+                                    {% endif %}
+                                    {% for material in materials %}
+
+                                        <option value="{{ material.id }}">{{ material.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="type">Tipo: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="type" id="type"
+                                        required="required">
+                                    {% if productTypes|length > 1 %}
+                                    <option value="">-- Tipo --</option>
+                                    {% endif %}
+                                    {% for type in productTypes %}
+
+                                        <option value="{{ type.id }}" >{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="type">Origen: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="country" id="country"
+                                        required="required">
+                                    {% for country in countries %}
+                                        {% set selected = '' %}
+                                        {% if country.countryCode == 'ES' %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ country.id }}" {{ selected }}>{{ country.countryName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="brand">Marca: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="brand" id="brand"
+                                        required="required">
+                                    {% if brands|length > 1 %}
+                                        <option value="">-- Marca --</option>
+                                    {% endif %}
+                                    {% for brand in brands %}
+                                        <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-5 ml-20 ">
+                    <fieldset>
+                        <h2>Stock</h2>
+
+                        <div class="stock-almacen">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="sw1">Almacen: <span
+                                                class="text-danger">*</span></label>
+                                    <div class="col-lg-9" id="warehouseDiv">
+                                        <select data-placeholder="" class="form-control warehouseControl" name="sw1"
+                                                id="sw1" required="required">
+                                          {#  {% if warehouses|length > 1 %}
+                                            <option value="">-- Almacen --</option>
+                                            {% endif %}#}
+                                            {% for warehouse in warehouses %}
+                                                {%  set selected = '' %}
+                                                {% if warehouse.id == warehouses|length+1 %}
+                                                    {%  set selected = 'selected' %}
+                                                {% endif %}
+                                                <option value="{{ warehouse.id }}" {{ selected }}>{{ warehouse.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="ws1">Cantidad: <span class="text-danger">*</span></label>
+                                    <div class="col-lg-9">
+                                        <input type="text" name="ws1" id="ws1" class="form-control"
+                                               placeholder="Ej. 5400"
+                                               value="1" required>
+                                    </div>
+                                </div>
+
+
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">Agregar mas almacenes</label>
+                            <div class="col-lg-6">
+                                <button class="btn btn-lg btn-primary" type="button"
+                                    id="addWarehouses"
+                               >Agregar<i
+                                            class="icon-add position-right"></i></button>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h2>Precio</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="price">Precio:</label>
+                            <div class="col-lg-9">
+                                <input type="text" name="price" id="price"
+                                       placeholder="Ej: 250.25" class="form-control mb-10">
+                                <small class="text-danger-800">Usa un punto para separar los decimales.</small>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="currency">Divisa:</label>
+                            <div class="col-lg-9" id="warehouseDiv">
+                                <select data-placeholder="" class="form-control" name="currency" id="currency"
+                                >
+                                    {% if currencies|length > 1 %}
+                                        <option value="">-- Divisa --</option>
+                                    {% endif %}
+
+                                    {% for currency in currencies %}
+                                        <option value="{{ currency.id }}" >{{ currency.name }}</option>
+                                    {% else %}
+                                        <option value="">No hay divisa disponible</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="discount">Descuento:</label>
+                            <div class="col-lg-9">
+                                <input type="text" name="discount" id="discount" placeholder="Ej. 20"
+                                       class="form-control mb-10" value="{{ product.discount }}">
+                                <small class="text-danger-800 text-center">Introduce el porcentaje de descuento sin incluir  % </small>
+                            </div>
+                        </div>
+{#                        {% if modo == 'create' %}#}
+                            <hr>
+
+                            <h2>Fotos</h2>
+
+                            <div id="media">
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Portada:</label>
+                                    <div class="col-lg-9">
+                                        <input type="file" name="cover" class="file-styled">
+                                    </div>
+                                    <p class="text-danger-800 text-centered">** Esta es la imagen principal del producto **</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Ambiente: </label>
+                                    <div class="col-lg-9">
+                                        <input type="file" name="ambient" class="file-styled">
+                                    </div>
+                                </div>
+
+
+                                <div id="tinyImg">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Miniaturas:</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" name="min" class="file-styled">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-lg-6 control-label">Agregar mas fotos miniatura</label>
+                                    <div class="col-lg-6">
+                                        <button class="btn btn-lg btn-primary" type="button" id="addTinyImage"
+                                        >
+                                            Mas<i class="icon-add position-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+{#                        {% endif %}#}
+
+
+                    </fieldset>
+
+                    <hr>
+
+
+                </div>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+
+                            </div>
+                            <div class="col-md-3 col-xs-6">
+                                <a href="{{ path('get_all_products') }}" onclick="return confirm('Estas seguro de abandonar la pagina?\nLos cambios que hayas realizado no se guardaran.')">
+                                <button type="button" class="btn btn-lg btn-danger mb-20"><i
+                                            class="icon-cancel-circle2 position-left"></i>Cancelar
+                                </button>
+                                </a>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6">
+                                <button type="submit" class="btn btn-lg btn-primary mb-20">
+                                    Crear producto <i class="icon-arrow-right14 position-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

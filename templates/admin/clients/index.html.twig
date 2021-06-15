@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+{% endblock %}
+
+{% block body %}
+{#{{ dump(clients) }}#}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Clientes</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <table class="table datatable-basic table-bordered">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Empresa</th>
+                <th>NIF</th>
+                <th>Pais</th>
+                <th>Ciudad</th>
+                <th>Email</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td><a href="{{ path('show_client', { 'id' : client.id }) }}">{{ client.name }}</a></td>
+                    <td>{{ client.surname }}</td>
+                    <td>{{ client.companyName }}</td>
+                    <td>{{ client.NIF}}</td>
+                    <td>{{ client.country.countryName }}</td>
+                    <td >{{ client.city }}</td>
+                    <td >{{ client.email }}</td>
+                    <td class="text-center"> <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-menu9"></i>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{ path('show_client',{ 'id' : client.id }) }}"><i class="icon-search4"></i> Ver completo</a></li>
+                                    <li><a href="{{ path('edit_client_get',{'id': client.id}) }}"><i class="icon-pencil6"></i> Editar</a></li>
+                                    <li>
+                                        <form method="post" action="{{ path('delete_client', {'id': client.id}) }}"
+                                              onsubmit="return confirm('Estas seguro de borrar este cliente?');">
+                                            <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn btn-link m-0"> <i class="icon-eraser3"></i>&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</button>
+                                        </form>
+                                    </li>
+                                    <li><a href="{{ path('show_discount_user', {'id' : client.id }) }}"><i class="icon-coins"></i>Descuentos</a></li>
+                                </ul>
+                            </li>
+                        </ul></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /basic datatable -->
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+
+{% endblock %}

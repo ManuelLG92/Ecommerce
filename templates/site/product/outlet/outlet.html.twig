@@ -1,0 +1,111 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {{ include('site/product/outlet/_header.html.twig') }}
+
+    <div class="container ">
+        {{ include('site/product/outlet/_products_outlet_show_template.html.twig') }}
+
+
+        <div class="col-md-10 mx-auto mt-3">
+            <div class="row">
+
+                {% for product in products %}
+{#
+
+               <div class="col-md-5 text-center mx-auto " data-bs-toggle="modal" data-bs-target="#{{ 'modal'  ~ product.id }}">
+                   <div class="card model-image">
+                       <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/'~ product.imageCover) }}" height="250" width="100%" class="card-img-top" alt="...">
+                       <div class="card-body">
+                           <h5 class="card-title">{{ product.name }}</h5>
+                           <p class="card-text">{{ product.idFormat.name }} cm</p>
+                       </div>
+                   </div>
+               </div>
+
+                <!-- Modal -->
+                <div class="modal fade " id="{{ 'modal'  ~ product.id }}"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content p-4">
+                           <div class="d-flex justify-content-between">
+                               <span>&nbsp</span>
+                            <h1>{{ product.name }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                            <div class="col-md-12 ps-5 pe-5 mb-3">
+                                <img  src="{{ asset('product_images/'~ product.imageCover) }}" onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                      class="card-img-top" height="250" width="100%">
+                            </div>
+                            <div class="col-md-12 ps-3 pe-3">
+                                <h3>2012 LAST <span class="text-danger">OFERTA</span></h3>
+                                <hr>
+                                <p><span class="font-sofia-bold">Fabricado en: </span>{{ product.country.countryName }}</p>
+                                <p><span class="font-sofia-bold">Formato: </span>{{ product.idFormat.name }} cm</p>
+                                <p><span class="font-sofia-bold">{{ product.idMaterial.name }}</span></p>
+                                <p><span class="font-sofia-bold">Zona: </span>{{ product.idZone.name }}</p>
+                                <hr>
+                                <ul>
+                                    <li>Elija agregar al carrito y todos los productos seleccionados seran cotizados via Email y/o WhatsApp</li>
+                                    <li>Y/o consulte este producto mediante WhatsApp.</li>
+                                </ul>
+                                <hr>
+                                <div class="row mt-2">
+                                <div class="col-sm-6 text-center ">
+                                    <p class="badge rounded-pill bg-white text-dark border border-dark">
+                                        <button class="btn btn-sm btn-link text-decoration-none" id="{{ 'minus' ~ product.id  }}"
+                                                onclick="updateQuantityMinusClick({{ 'quantity' ~ product.id  }},{{ 'sum' ~ product.id  }},{{ 'minus' ~ product.id  }})">
+                                                    <i><img
+                                                        src="{{ asset('images/minus.png') }}" alt="Minus"></i></button>
+                                        <input type="text" class="btn btn-link text-dark text-decoration-none" id="{{ 'quantity' ~ product.id  }}"
+                                               name="quantity" size="1" value="1"
+                                               onchange="updateQuantityInputChange({{ 'quantity' ~ product.id  }},{{ 'sum' ~ product.id  }},{{ 'minus' ~ product.id  }})">
+                                        <button class="btn btn-sm btn-link text-decoration-none text-dark" id="{{ 'sum' ~ product.id  }}"
+                                                onclick="updateQuantitySumClick({{ 'quantity' ~ product.id  }},{{ 'sum' ~ product.id  }},{{ 'minus' ~ product.id  }})"><i><img
+                                                        src=" {{ asset('images/sum.png') }}" alt="Plus"></i></button>
+                                    </p>
+                                </div>
+                                <div class="col-sm-6 col-12 text-center">
+                                    <button class="badge rounded-pill bg-dark text-white p-3 mb-2 fs-6" id="{{ 'btnModal' ~ product.id  }}"
+                                            onclick="addItemToCartModal({{ 'btnModal' ~ product.id  }}, {{ product.id }}, {{ 'quantity' ~ product.id  }})">Agregar</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+#}
+
+
+            {% endfor %}
+        </div>
+        </div>
+
+        {{ include('common/_pagination.html.twig',
+            {
+                number_pages : number_pages,
+                current_page : current_page,
+
+            }) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(() => {
+            $('.nav-bar-items a').removeClass('active-nav-page-border font-sofia-bold');
+            $('#outlet').addClass('active-nav-page-border font-sofia-bold')
+        })
+
+
+    </script>
+
+        <script src="{{ asset('js/app/site/productQuantityCartControl.js') }}"></script>
+        <script src="{{ asset('js/app/site/addItemToCart.js') }}"></script>
+        <script src="{{ asset('js/app/site/sendFilterForm.js') }}"></script>
+
+
+{% endblock %}

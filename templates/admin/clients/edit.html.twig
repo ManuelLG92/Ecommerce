@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+
+
+
+{% block body %}
+    {% include 'admin/clients/_form_edit.html.twig' with { action : path('edit_client_put', {'id' : client.id }), client : client , modo : 'Editar'} %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+    <script src="{{ asset('js/app/users/edit_user.js') }}"></script>
+
+{% endblock %}

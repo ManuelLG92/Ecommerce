@@ -1,0 +1,51 @@
+<!-- Modal -->
+<!-- Button trigger modal -->
+
+
+<div class="modal fade" id="signInAgent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Zona de agentes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{ path('app_login') }}" method="post" id="formAgent">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="email" class="form-control email" name="email" placeholder="email@ex.es" aria-label="Username"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                        <div id="emailHelp" class="form-text"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-group mb-3">
+                            <label for="password">Contraseña <span class="text-danger">*</span></label>
+
+                            <div class="input-group" id="show_hide_password">
+                                <input class="form-control password" type="password" name="password" id="password">
+                                <span class="input-group-text" id="eye-password" style="cursor: pointer;">
+                                  <i class="icon-eye" aria-hidden="true"></i>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div id="passwordHelp" class="form-text"></div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="text-center">
+                        <button type="button" id="btnAgentSignIn" class="btn estilker-color font-sofia-bold text-white">Enviar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

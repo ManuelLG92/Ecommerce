@@ -1,0 +1,87 @@
+<div class="p-3 navegation bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light " id="main_navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><img src="{{ asset('images/estilker_logo.png') }}" alt="logo" width="80%"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-bar-items">
+                    <li class="nav-item me-1">
+                        <a class="nav-link " id="home" aria-current="page" href="{{ path('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item me-1"><a class="nav-link " id="catalogue"
+                           aria-current="page" href="{{ path('catalogue') }}">Catálogo</a></li>
+
+            {#        <li class="nav-item me-1">
+                        <a class="nav-link " id="sets" href="{{ path('set_products') }}">Sets</a>
+                    </li>#}
+                    <li class="nav-item me-1">
+                        <a class="nav-link " id="us" href="{{ path('us') }}">Quienes somos</a>
+                    </li>
+                    <li class="nav-item me-1">
+                        <a class="nav-link " id="contact" href="{{ path('contact') }}">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger " id="outlet" href="{{ path('outlet') }}">Outlet</a>
+                    </li>
+
+                </ul>
+                <div class="d-flex justify-content-center">
+                    <div class="d-inline">
+                        {% if app.user %}
+                            {% set userName = app.user.email|split('@') %}
+                            <div class="dropdown me-5">
+                                <a class="btn estilker-color dropdown-toggle text-white font-sofia-bold" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ userName[0]|capitalize}}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            {% if is_granted("ROLE_AGENT") %}
+                                    <li><a class="dropdown-item" href="{{ path('public_agent_profile') }}">Perfil</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Salir</a></li>
+                                </ul>
+                            </div>
+
+                        {% else %}
+                        <button class="btn estilker-color text-white me-5 p-1 ps-3 pe-3 font-sofia-bold"
+                                            data-bs-toggle="modal" data-bs-target="#signInAgent">
+                            Acceso
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="d-inline">
+                        <a href="{{ path('get_cart') }}">
+                            <button class="btn notification estilker-color text-white btn p-1 ps-3 pe-3 text-decoration-none fs-6 ">
+                                <span>Pedido</span>
+                                <span class="custom-badge badge rounded-pill bg-info " id="cartQuantity">{{ app.session.get('details')|length }}
+                            </span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <hr>
+</div>
+
+{{ include('common/sign_in_agent.html.twig') }}
+<div class="container mt-3">
+
+    {% for message in app.flashes('fail') %}
+        <div class="alert alert-danger alert-dismissible fade show alert-bordered" role="alert">
+            <span class="font-sofia-regular">{{ message }}</a></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span class="sr-only"></span></button>
+
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show alert-bordered" role="alert">
+            <span class="font-sofia-regular">{{ message }}</a></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span class="sr-only"></span></button>
+        </div>
+    {% endfor %}
+</div>

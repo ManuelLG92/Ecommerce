@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {%  include 'admin/material/_form.html.twig' with {action : path('edit_material_put'), material : material ,
+        modo : "editar" , btn_form : "Editar"}  %}
+
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}{#
+    <script src="{{ asset('js/app/category/CreateAndEditZoneForm.js') }}"></script>#}
+{% endblock %}

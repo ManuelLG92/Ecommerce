@@ -1,0 +1,176 @@
+{% set checked = '' %}
+{# ---------------  Start mobile and tablet view  ---------------------#}
+<div class="d-lg-none">
+{#    Queda#}
+    <div class="offcanvas offcanvas-start toogle-menu"  tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+
+        <div class="offcanvas-body px-0 ">
+            {#    Queda#}
+            <form action="{{ path('filter_by_outlet') }}" method="post" id="filterForm">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+
+                    <li>
+                        <span href="#" class="nav-link text-truncate text-decoration-none text-dark">
+                            <i class="fs-5 bi-table"></i><span class="ms-1 font-sofia-bold">Zona</span></span>
+                        {% set checked = "" %}
+                        {% for zone in zones %}
+
+                            {% if zone.id == selectedZone %}
+
+                                {% set checked = "checked" %}
+                            {% else %}
+                                {% set checked = "" %}
+                            {% endif %}
+
+                 {#           {% if zone.id == 18 %}
+
+                            {% else %}#}
+                                <div class="ms-4">
+                                    <div >
+                                        <input type="radio" name="zone" value="{{ zone.id }}"
+                                               id="{{ 'zoneMobile'~ zone.id }}"  {{ checked }} required>
+                                        <label class="form-check-label" for="{{ 'zoneMobile'~ zone.id }}">
+                                            {{ zone.name }}
+                                        </label>
+                                    </div>
+                                </div>
+{#                            {% endif %}#}
+                        {% endfor %}
+
+                        {% set checked = "" %}
+
+                        {% if selectedZone == 0 %}
+                            {% set checked = "checked" %}
+                        {% endif %}
+                        <div class="ms-4">
+                            <div >
+                                <input type="radio" name="zone" value="0" id="zoneMobileAll" {{ checked }}>
+                                <label class="form-check-label" for="zoneMobileAll">
+                                    Todos
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </li>
+                    {% set checked = "" %}
+
+                    <li>
+                        <span href="#" class="nav-link text-truncate">
+                            <i class="fs-5 bi-grid"></i><span class="ms-1 font-sofia-bold">Acabado</span></span>
+                        <div class="ms-4">
+                            {% for material in materials %}
+
+                                {% if material.id == selectedMaterials %}
+                                    {% set checked = "checked" %}
+                                {% endif %}
+
+                                <div >
+                                    <input  type="radio" name="material" value="{{ material.id }}" id="{{ 'materialMobile' ~material.id }}"  {{ checked }} required>
+                                    <label class="form-check-label" for="{{ 'materialMobile' ~material.id }}">
+                                        {{ material.name }}
+                                    </label>
+                                </div>
+                                {% set checked = "" %}
+                            {% endfor %}
+
+                            {% if selectedMaterials == 0 %}
+                                {% set checked = "checked" %}
+                            {% endif %}
+                            <div >
+                                <input  type="radio" name="material" value="0" id="materialMobileAll" {{ checked }}>
+                                <label class="form-check-label" for="materialMobileAll">
+                                    Todos
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <span href="#" class="nav-link text-truncate">
+                            <i class="fs-5 bi-grid"></i><span class="ms-1 font-sofia-bold">Formato</span></span>
+                        {% set checked = "" %}
+                        <div class="ms-4">
+                            {% if selectedFormats|length == 0 %}
+                                {% set checked = "checked" %}
+                            {% endif %}
+                            <div >
+                                <input  type="checkbox" id="allFormatsMobile"
+                                       name="format" value="0" {{ checked }}>
+                                <label class="form-check-label" for="allFormatsMobile">
+                                    Todos
+                                </label>
+                            </div>
+
+                            {% set checked = "" %}
+                            <div id="formatOptionsMobile">
+                                {% for format in formats %}
+                                    {% for selectedFormat in selectedFormats%}
+                                        {% if format.id == selectedFormat %}
+                                            {% set checked = "checked" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div >
+                                        <input  type="checkbox" id="{{ 'format'~format.id }}"
+                                               name="format[]" value="{{ format.id }}" {{ checked }}>
+                                        <label class="form-check-label" for="{{ 'format'~format.id }}">
+                                            {{ format.name }}
+                                        </label>
+                                    </div>
+                                    {% set checked = "" %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+
+    </div>
+
+{#    <div class="text-center me-3">
+    <span class="btn estilker-color text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+#}{#            <i class="bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">btn</i>#}{#
+       Filtrar
+    </span>
+    </div>#}
+
+    <div class="col-10 mx-auto">
+    <div class="d-grid gap-2">
+         <span class="btn estilker-color text-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+{#            <i class="bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">btn</i>#}
+       Filtrar
+    </span>
+    </div>
+    </div>
+    <div class="container ">
+        <div class="col-md-10 mx-auto mt-3">
+            <div class="row">
+                {% for product in products %}
+                    {#                {{ dump(product.imageCover) }}#}
+                    <div class="col-md-10 text-center mx-auto my-auto mb-2 ">
+                        <div class="model-image">
+                            <div>
+                                <span class="badge discount-percent-mobile font-sofia-bold">{{ product.discount }}%</span>
+                            </div>
+                            <a href="{{ path('site_product_show', {'id' : product.id}) }}" class="text-decoration-none text-dark">
+                                <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/' ~ product.imageCover ) }}"
+                                     class="card-img-top" alt="ProductImage" width="100%" >
+                            </a>
+
+                                <div class="card-body">
+                                    <div class="image-row-description">
+                                        {{ include('site/product/outlet/_card_body.html.twig') }}
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                    {% else %}
+                    <h1>Aun no tenemos productos para esta busqueda</h1>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{# ---------------  End mobile and tablet view  ---------------------#}

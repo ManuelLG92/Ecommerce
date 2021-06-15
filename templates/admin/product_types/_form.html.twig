@@ -1,0 +1,30 @@
+<form action="{{ action }}" method="post" id="formZone" >
+    {% if modo == 'editar' %}
+    <input type="hidden" name="_method" value="PUT">
+    {% endif %}
+    <input type="hidden" name="idProductType" value="{{ productType.id }}">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">{{ modo|capitalize }} Tipo de producto</h5>
+            {#<div class="heading-elements">
+                </div>#}
+        </div>
+        <hr>
+        <div class="panel-body">
+            <div class="form-group has-feedback" id="divValidation">
+                <label class="col-md-3 control-label text-right" for="name">Nombre: </label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="name" id="name" value="{{ productType.name }}" autocomplete="off">
+                    <div class="form-control-feedback">
+                        <i id="symbol" class=""></i>
+                    </div>
+                    <span class="help-block" id="helper"></span>
+                </div>
+                <div class="col-md-3 text-left">
+{#                    <input type="button" value="">#}
+                    <button type="submit" id="zoneFormBtn" class="btn btn-primary ">{{ btn_form|default('Crear')}}<i class="icon-arrow-right14 position-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

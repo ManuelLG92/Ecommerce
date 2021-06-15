@@ -1,0 +1,45 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+
+        {{ include('site/product/_products_show_template.html.twig') }}
+        </div>
+
+    <div class="mt-1">
+
+    {{ include('common/_pagination.html.twig',
+        {
+            number_pages : number_pages,
+            current_page : current_page,
+        }) }}
+
+
+
+        <span></span>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/site/productShowControl.js') }}"></script>
+    <script>
+        $(document).ready(() => {
+            $('.nav-bar-items a').removeClass('active-nav-page-border font-sofia-bold');
+            $('#catalogue').addClass('active-nav-page-border font-sofia-bold')
+        })
+    </script>
+
+    <script src="{{ asset('js/app/site/sendFilterForm.js') }}"></script>
+
+
+{% endblock %}

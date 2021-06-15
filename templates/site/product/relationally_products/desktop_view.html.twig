@@ -1,0 +1,49 @@
+{% if product.idFormat.id != 7 %}
+<div class="d-none d-md-block">
+    <div class="relationed-products container col-10">
+        <h1 class="text-center relationed-products">Productos relacionados</h1>
+        <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% set numberSlides = relationally|length/3|round %}
+
+                    {% set min = 0 %}
+                    {% set max = 3 %}
+                    {% for i in 0..numberSlides-1 %}
+                    {% if i == 0 %}
+                    <div class="carousel-item active">
+                        {% else %}
+                        <div class="carousel-item ">
+                            {% endif %}
+                            <div class="d-flex justify-content-around">
+                                {% for relational in relationally|slice(min, max) %}
+                                    <div class="card w-25 my-auto" >
+                                        <a href="{{ path('site_product_show', {'id' : relational.id}) }}" class="text-decoration-none text-dark">
+                                            <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                                 src="{{ asset('product_images/' ~ relational.imageCover) }}"
+                                                 class="card-img-top" alt="{{ relational.name }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ relational.name }}</h5>
+                                                <p class="card-text">{{ relational.idFormat.name }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% set min = min+3 %}
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev carousel-ctrl-before" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next carousel-ctrl-after" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

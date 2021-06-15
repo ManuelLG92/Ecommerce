@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+{#    {{ dump(countries) }}#}
+    {% include 'admin/clients/_form.html.twig' with { action : path('create_client_post'), client : client , countries : countries, modo : 'Crear'} %}
+   {# <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Clientes</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <table class="table datatable-basic table-bordered">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Empresa</th>
+                <th>NIF</th>
+                <th>Material</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td><a href="{{ path('show_product', { 'id' : product.id }) }}">{{ product.name }}</a></td>
+                    <td>{{ product.reference }}</td>
+                    <td>{{ product.format }}</td>
+                    <td>{{ product.productType }}</td>
+                    <td>{{ product.material }}</td>
+                    <td >{{ product.price }}</td>
+                    <td class="text-center">
+
+                        <select name="stock" id="stock" class="select">
+                            {% set totalStock = 0 %}
+                            {%  for stocks in product.stock %}
+                                {% set totalStock = totalStock + stocks.stock %}
+                            {% endfor %}
+                            <option value=""> Total: {{ totalStock }}</option>
+                            {%  for stocks in product.stock %}
+
+                                <option value="{{ stocks.warehouse }}">{{ stocks.warehouse }} - {{ stocks.stock }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </td>
+                    <td class="text-center"> <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-menu9"></i>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{ path('show_product',{ 'id' : product.id }) }}"><i class="icon-search4"></i> Ver completo</a></li>
+                                    <li><a href="{{ path('edit_product_get',{'id': product.id}) }}"><i class="icon-pencil6"></i> Editar</a></li>
+                                    <li>
+                                        <form method="post" action="{{ path('delete_product', {'id': product.id}) }}"
+                                              onsubmit="return confirm('Estas seguro de borrar este producto?');">
+                                            <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn btn-link m-0"> <i class="icon-eraser3"></i>&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /basic datatable -->
+
+#}
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+    <script src="{{ asset('js/app/users/countries.js') }}"></script>
+
+{% endblock %}

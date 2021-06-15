@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/warehouse/_form.html.twig' with { 'action' : path('create_warehouse_post') , warehouse : warehouse, modo : "Crear"} %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{#    <script src="{{ asset('js/app/category/CreateAndEditZoneForm.js') }}"></script>#}
+{% endblock %}

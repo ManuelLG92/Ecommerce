@@ -1,0 +1,65 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+
+{% endblock %}
+{% block body %}
+{#    {{ dump(product) }}#}
+    <div class="container">
+
+
+        <div class="container mt-5">
+
+            <div class="col-md-10 mx-auto mt-3">
+                <div class="row">
+                    {% for product in products %}
+{#                {{ dump(product.imageCover) }}#}
+                        <div class="col-md-5 text-center mx-auto my-auto ">
+                            <div class="card model-image">
+                                <a href="{{ path('site_product_show', {'id' : product.id}) }}" class="text-decoration-none text-dark">
+                                <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/' ~ product.imageCover ) }}"
+                                     class="card-img-top" alt="ProductImage" width="100%">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.idFormat.name }} cm</p>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    {{ include('common/_pagination.html.twig',
+        {
+            number_pages : number_pages,
+            current_page : current_page,
+
+        }) }}
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/site/productShowControl.js') }}"></script>
+    <script>
+        $(document).ready(() => {
+            $('.nav-bar-items a').removeClass('active-nav-page-border font-sofia-bold');
+            $('#catalogue').addClass('active-nav-page-border font-sofia-bold')
+        })
+/*        $(window).on('unload', () => {
+            $('#sets').removeClass('active-nav-page-border')
+        })*/
+
+    </script>
+
+    <script src="{{ asset('js/app/site/sendFilterForm.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,328 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if products|length > 0 %}
+            <h1>Finalizar pedido</h1>
+
+            <h4 id="productQuantityShow">
+                Tienes {{ products|length }} {% if products|length > 1 %}productos{% else %}producto{% endif %} en tu
+                cesta de compra</h4>
+
+
+            <form action="{{ path('checkout') }}" method="post">
+                {% for product in products %}
+                    <div class="col-md-12 mt-5  product-cart-view" id="{{ 'div' ~ product.id }}" >
+
+                        <div class="p-3 mb-5 bg-body rounded" >
+                            <div class="row">
+                               {#  <div class="col-md-4 col-xs-12 img-container-checkout"
+                                     style="background-image: url('{{ asset('product_images/' ~ product.image) }}')" >
+
+                                    <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                         src="{{ asset('product_images/'~ product.image) }}"
+                                         alt="{{ product.name }}" class="image-hover-event" >
+                                   <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Launch static backdrop modal
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="{{ 'modal'  ~ product.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+                                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">{{ product.name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ...
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn estilker-color" data-bs-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>#}
+
+                                <div class="col-md-4 img-container-checkout my-auto">
+
+                                        <div class="overflow-hidden scroll-img" data-bs-toggle="modal" data-bs-target="#{{ 'modal'  ~ product.productId }}">
+                                            <img style="cursor: pointer" onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                                 src="{{ asset('product_images/'~ product.image) }}"
+                                                 alt="{{ product.name }}" width="100%">
+                                        </div>
+
+                                    <div class="modal fade" id="{{ 'modal'  ~ product.productId }}"
+                                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">{{ product.name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                                         src="{{ asset('product_images/'~ product.image) }}"
+                                                         alt="{{ product.name }}" width="100%">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn text-white font-sofia-bold estilker-color" data-bs-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2  mt-3 text-center text-md-start">
+                                    <p>{{ product.name }}</p>
+                                    <p>{{ product.reference }}</p>
+                                </div>
+                                {# ~ 1 #}
+                                <div class="col-md-3 text-center mb-2 mt-4">
+                                    <p class="badge rounded-pill bg-white text-dark border border-dark">
+                                        <input type="hidden" name="{{ 'product' ~ product.productId }}"
+                                               value="{{ product.productId }}">
+                                        <button type="button" class="btn btn-sm btn-link text-decoration-none"
+                                                id="{{ 'minus' ~ product.productId }}"
+                                                onclick="updateQuantityMinusClick({{ 'quantity' ~ product.productId }},{{ 'sum' ~ product.productId }},{{ 'minus' ~ product.productId }})">
+                                            <i><img
+                                                        src="{{ asset('images/minus.png') }}" alt="Minus"></i></button>
+                                        <input type="text" class="btn btn-link text-dark text-decoration-none"
+                                               id="{{ 'quantity'  ~ product.productId }}"
+                                               name="{{ 'quantity' ~ product.productId }}" size="1"
+                                               value="{{ product.quantity }}"
+                                               onchange="updateQuantityInputChange({{ 'quantity' ~ product.productId }},{{ 'sum' ~ product.productId }},{{ 'minus' ~ product.productId }})">
+
+                                        <button type="button" class="btn btn-sm btn-link text-decoration-none text-dark"
+                                                id="{{ 'sum'~ product.productId }}"
+                                                onclick="updateQuantitySumClick({{ 'quantity' ~ product.productId }},{{ 'sum' ~ product.productId }},{{ 'minus' ~ product.productId }})">
+                                            <i><img
+                                                        src=" {{ asset('images/sum.png') }}" alt="Plus"></i></button>
+                                    </p>
+                                </div>
+                                <div class="col-md-3 text-center text-md-end cart-zone">
+                                    {% if product.price == 0 %}
+                                    <p>Precio a consultar</p>
+                                    {% else %}
+                                    <p class="font-sofia-bold">Precio: <span class="text-danger">{{ product.price }} $</span></p>
+                                    {% endif %}
+                                    <a class="btn btn-link text-danger text-decoration-none"
+                                       id="{{ 'btn' ~ product.id }}"
+                                       href="{{ path('remove_cart_item', {'id' : product.productId}) }}"
+                                    >Eliminar</a>
+                                </div>
+                                {# onclick="deleteItemFromCart({{ product.productId }}, {{ 'div' ~ product.id }}, {{ 'btn' ~ product.id }} )" #}
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+                <div class="text-end">{#
+                    <div class="row">
+                        <div class="col"> <span class="fs-2 font-sofia-bold">AÑADIR MAS PRODUCTOS</span></div>
+                        <div class="col"> <button type="submit" class="btn estilker-color fs-5 ps-5 pe-5 font-sofia-bold text-white">TERMINAR
+                                PEDIDO
+                            </button></div>
+                    </div>#}
+
+                    <div class="row mt-3">
+                        <div class="col-md-6 mt-3 text-center text-md-end">
+
+                            <a href="#accordionFlushExample" class="btn fs-6 font-sofia-bold"  id="add-more-cart">AÑADIR MAS PRODUCTOS</a>
+                        </div>
+                        <div class="col-md-6 mt-3 text-center text-md-start">
+                          {#  <button type="submit"
+                                    class="btn fs-6 font-sofia-bold" id="see-more" id="add-more-cart" >
+                                #}{#            <img class="me-2" src="{{ asset('images/download-cloud.png') }}" alt="Descarga">#}{#
+                                TERMINAR PEDIDO
+                            </button>#}
+                            <button type="submit"  class="btn fs-6 font-sofia-bold" id="see-more">TERMINAR PEDIDO</button>
+                           {# <a href="#accordionFlushExample"  class="btn fs-6 font-sofia-bold" id="see-more">TERMINAR
+                                PEDIDO</a>#}
+                        </div>
+                    </div>
+                 {#   <div class="d-flex justify-content-around">
+                    <span class="fs-2 font-sofia-bold">AÑADIR MAS PRODUCTOS</span>
+                    <button type="submit" class="btn estilker-color fs-5 ps-5 pe-5 font-sofia-bold text-white">TERMINAR
+                        PEDIDO
+                    </button>
+                    </div>#}
+                </div>
+            </form>
+
+            {#
+            <div class="d-flex justify-content-end">
+                <div class="col-xs-8 col-sm-8 col-md-6 col-lg-3 text-center">
+                    <small>Habla con nuestros agentes para realizar tu pedido y consultar precios</small>
+                </div>
+            </div>
+
+
+           <div class="text-end mt-3">
+                <a href="https://api.whatsapp.com/send?phone=34655982541&text=hola,%20qué%20tal?" target="_blank"><span
+                            class="badge rounded-pill cart-pill me-3 whatsapp-btn p-2">
+                <i class="me-2"><img src="{{ asset('images/logos/whatsapp_btn_filed.png') }}" width="42" alt="WhatsApp"
+                                     id="whatsapp"></i>WHATSAPP
+            </span></a>
+                <a href="mailto:servicioalcliente@estilkercolombia.co">
+                    <span class="badge rounded-pill cart-pill ">
+                        <i class="me-2"><img src="{{ asset('images/logos/rrss/icon_mail.png') }}" width="42" alt="Email"></i>
+                        MAIL
+                    </span>
+                </a>
+            </div>#}
+        {% endif %}
+
+
+        <div class="text-center mt-5 mb-5">
+            {% if products|length < 1 %}
+                <span class="fs-2 font-sofia-bold">AÑADE PRODUCTOS A TU PEDIDO</span>
+            {% endif %}
+        </div>
+
+       {# <div class="text-center">
+            <span><img src="{{ asset('images/logos/down-chevron.png') }}" alt=""></span>
+        </div>#}
+    </div>
+
+
+    <div class="container">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            {% for key_general, formatsList in accordion_items %}
+                {% for key, formats in formatsList %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header text-center" id="{{ 'flush-heading'~ key }}">
+
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#{{ 'flush-collapse'~ key_general }}" aria-expanded="false"
+                                    aria-controls="{{ 'flush-collapse'~ key_general }}">
+                                {{ key }} cms
+                            </button>
+
+                        </h2>
+                        {% for  format in formats %}
+
+                            {% for key_zone, zone_products in format %}
+
+                            <div id="{{ 'flush-collapse' ~ key_general }}" class="accordion-collapse collapse"
+                                 aria-labelledby="{{ 'flush-heading'~ key_general }}"
+                                 data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="accordion accordion-flush" id="subAccordionExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="{{ 'heading'~key_zone }}">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#{{ 'subCollapse'~key_zone }}" aria-expanded="true"
+                                                            aria-controls="{{ 'subCollapse'~key_zone }}">
+                                                        {{ key_zone }}
+                                                    </button>
+                                                </h2>
+                                                <div id="{{ 'subCollapse'~key_zone }}" class="accordion-collapse collapse show"
+                                                     aria-labelledby="{{ 'heading'~key_zone }}"
+                                                     data-bs-parent="#subAccordionExample">
+                                                    <div class="accordion-body">
+                                                        {% for zone_product in zone_products %}
+
+                                                            <div class="row mb-3">
+                                                                <div class="col-6 col-md-3 text-center my-auto">
+                                                                    <a href="{{ path('site_product_show', { 'id' : zone_product.id}) }}">
+                                                                    <img src="{{ asset('product_images/' ~ zone_product.imageCoverUrl) }}" alt="Cover image"
+                                                                         width="100%">
+                                                                    </a>
+                                                                </div>
+
+                                                                <div class="col-6 col-md-3 text-center my-auto">
+                                                                    <p>{{ zone_product.getName() }}</p>
+                                                                </div>
+
+                                                                <div class="col-12 col-md-6 text-center mb-2 mt-4">
+
+                                                                        <form action="{{ path('add_cart_item_from_cart') }}" method="post">
+                                                                            <div class="d-flex justify-content-around">
+                                                                                <p class="badge rounded-pill bg-white text-dark border border-dark">
+                                                                                    <input type="hidden" name="{{ 'product' ~ zone_product.id }}"
+                                                                                           value="{{ zone_product.id }}">
+                                                                                    <button type="button" class="btn btn-sm btn-link text-decoration-none"
+                                                                                            id="{{ 'minus' ~ zone_product.id }}"
+                                                                                            onclick="updateQuantityMinusClick({{ 'quantity' ~ zone_product.id }},{{ 'sum' ~ zone_product.id }},{{ 'minus' ~ zone_product.id }})">
+                                                                                        <i><img
+                                                                                                    src="{{ asset('images/minus.png') }}" alt="Minus"></i></button>
+                                                                                    <input type="text" class="btn btn-link text-dark text-decoration-none"
+                                                                                           id="{{ 'quantity'  ~ zone_product.id }}"
+                                                                                           name="{{ 'quantity' ~ zone_product.id }}" size="1"
+                                                                                           value="1"
+                                                                                           onchange="updateQuantityInputChange({{ 'quantity' ~ zone_product.id }},{{ 'sum' ~ zone_product.id }},{{ 'minus' ~ zone_product.id }})">
+                                                                                    <button type="button" class="btn btn-sm btn-link text-decoration-none text-dark"
+                                                                                            id="{{ 'sum'~ zone_product.id }}"
+                                                                                            onclick="updateQuantitySumClick({{ 'quantity' ~ zone_product.id }},{{ 'sum' ~ zone_product.id }},{{ 'minus' ~ zone_product.id }})">
+                                                                                        <i><img
+                                                                                                    src=" {{ asset('images/sum.png') }}" alt="Plus"></i></button>
+                                                                                </p>
+                                                                                <div class="my-auto">
+                                                                                    <button type="submit" class="btn estilker-color text-white ">
+                                                                                        Añadir
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                </div>
+
+                                                              {#  <div class="col-6 col-md-3 text-center my-auto">
+
+                                                                    <form action="{{ path('add_cart_item_from_cart') }}" method="post" id="{{ 'form'~ zone_product.id}}">
+                                                                        <input type="hidden" name="product" value="{{ zone_product.id }}">
+                                                                        <input type="hidden" name="quantity" value="1">
+                                                                    </form>
+                                                                </div>#}
+                                                            </div>
+                                                        {% endfor %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    {#        <p>{{ key }}</p>
+                        {% for format in formats %}
+                            {% for key_zone, zone_products in format %}
+                                <p>{{ key_zone }}</p>
+                                {% for ket_test, zone_product in zone_products %}
+                                    <p>{{ zone_product.getName() }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}#}
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/site/deleteItemFromCart.js') }}"></script>
+    <script src="{{ asset('js/app/site/productQuantityCartControl.js') }}"></script>
+    <script src="{{ asset('js/app/site/addItemToCart.js') }}"></script>
+    <script src="{{ asset('js/app/site/hoverImage.js') }}"></script>
+
+
+{% endblock %}

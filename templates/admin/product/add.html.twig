@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+{%  include 'admin/product/_create_form.html.twig' with {action : path('create_product_post'), modo : 'create' }  %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="{{ asset('js/app/products/formControl.js') }}"></script>
+    <script src="{{ asset('js/app/products/imagesControl.js') }}"></script>
+{% endblock %}

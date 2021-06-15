@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+
+
+{% block body %}
+{#    {{ dump(client) }}#}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+
+            <h1 class="panel-title text-center">
+                Cliente
+            </h1>
+            <hr class="line_break">
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1 ">
+
+                    <fieldset>
+                        <h2 class="text-center">Datos Personales</h2>
+                        <div class="form-group ">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="name">Nombre:</label>
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.name }}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="decorated">Apellidos: </label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.surname }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="decorated">Empresa: </label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.companyName }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="decorated">NIF: </label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.NIF }}</p>
+                                </div>
+
+                            </div>
+
+
+                            <h2 class="text-center">Contacto</h2>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="decorated">Telefono: </label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.phone }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" for="decorated">Email: </label>
+
+                                <div class="col-lg-9">
+                                    <p class="form-control">{{ client.email }}</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-5 col-md-offset-1">
+                    <fieldset>
+
+                        <h2 class="text-center">Domicilio</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Direccion: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ client.address }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Pais: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ client.country.countryName }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Region: </label>
+
+                            <div class="col-lg-9">
+                                {% if client.country.countryCode is same as ('CO') %}
+                                    <p class="form-control">{{ region.name }}</p>
+                                {% else %}
+                                    <p class="form-control">{{ client.region}}</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Ciudad: </label>
+
+                            <div class="col-lg-9">
+                                {% if client.country.countryCode is same as ('CO') %}
+                                    <p class="form-control">{{ city.name }}</p>
+                                {% else %}
+                                    <p class="form-control">{{ client.city}}</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Codigo postal: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ client.postalCode }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-12 control-label" for="aditionalInfo">Informacion adicional: </label>
+
+                            <div class="col-lg-12">
+                                <textarea name="aditionalInfo" class="form-control" id="aditionalInfo" rows="5">{{ client.additionalInformation }}</textarea>
+{#                                <p class="form-control">{{ client.additionalInformation }}</p>#}
+                            </div>
+
+                        </div>
+
+
+
+                    </fieldset>
+                </div>
+
+            </div>
+
+            <hr class="line_break">
+
+            <div class="text-center">
+                <a href="{{ path('edit_client_get',{'id': client.id}) }}" class="btn btn-lg btn-primary mt-20"><i
+                            class="icon-pencil6"></i> Editar</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+
+{% endblock %}

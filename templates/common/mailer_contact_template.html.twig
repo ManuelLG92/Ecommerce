@@ -1,0 +1,34 @@
+
+    <div>
+        <div style="width: 80%; margin: 0 auto">
+
+            <h1 style="text-align: center; text-decoration: underline">Estilker Colombia</h1>
+
+                <div style="text-align: right; margin-bottom: 1em;font-size:x-large">
+                    <span style="font-weight: bold">{{ "now"|date("m/d/Y H:i:s") }}</span>
+                </div>
+
+                <div style="font-size: larger; margin-bottom: 1em">
+                    <span style="font-weight: bold" >Nombre: </span> <span >{{ name|capitalize }} {{ surname|capitalize }}</span>
+
+                </div>
+
+                <div style="font-size: larger; margin-bottom: 1em">
+                   <span style="font-weight: bold">Contacto: </span> <span >Email: {{ contact_email|capitalize }} - Teléfono: {{ phone }}</span>
+                </div>
+
+                <div style="font-size: larger; margin-bottom: 1em">
+                  <span style="font-weight: bold">Dirección:</span> <span>{{ city|capitalize }}, {{ region|capitalize }}, {{ country|capitalize }}</span>
+                </div>
+
+                <div style="font-size: larger; margin-bottom: 1em">
+                    <span style="font-weight: bold">Mensaje:</span>
+                    <br>
+                    <span>{{ additional_info|capitalize }}</span>
+                </div>
+
+            </div>
+        </div>
+
+
+

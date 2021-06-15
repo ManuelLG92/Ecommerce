@@ -1,0 +1,23 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}Error{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+    {% include 'bundles/TwigBundle/Exception/_template_errors.html.twig'
+        with { error_code : 'Error',
+                message : "",
+                description : "Ha ocurrido un error no esperado, intentalo en unos minutos"} %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}

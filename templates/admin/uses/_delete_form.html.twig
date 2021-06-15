@@ -1,0 +1,6 @@
+<{#form method="post" action="{{ path('delete_zone', {'id': zone.id}) }}" id="deleteCategory"
+      onsubmit="return confirm('Estas seguro de borrar esta zona?');">
+    <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ zone.id) }}">
+    <input type="hidden" name="_method" value="DELETE">
+</form>
+#}

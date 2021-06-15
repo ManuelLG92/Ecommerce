@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Usuarios Estilker</h5>
+        </div>
+
+
+
+        <table class="table datatable-basic table-bordered">
+            <thead>
+            <tr >
+                <th class="text-center">Acceso</th>
+                <th class="text-center">Roles</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td class="text-center">{{ user.email }}</td>
+
+                    <td>
+                        {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                            Todos los permisos (super admin).
+                        {% elseif 'ROLE_PRODUCT_MANAGER' in user.roles %}
+                            Product Manager. Tiene acceso al panel en areas específicas
+                        {% elseif 'ROLE_ADMIN' in user.roles %}
+                            Administrador. Tiene acceso al panel en areas específicas
+                        {% elseif 'ROLE_AGENT' in user.roles %}
+                            Agente
+                        {% else %}
+                            Usuario
+                        {% endif %}
+                        {% set length = 0 %}
+
+
+                    </td>
+
+                    <td class="text-center">
+                        <a href="{{ path('edit_estilker_user_get',{'id': user.id}) }}" class="mr-10 text-warning-800"
+                           title="Editar"><i class="icon-pencil6"></i></a>
+                        <div class="display-inline-block">
+                            <form method="post" action="{{ path('delete_estilker_user', {'id': user.id}) }}"
+                                  onsubmit="return confirm('Estas seguro de eliminar este usuario?');">
+                                <input type="hidden" class="" name="_token"
+                                       value="{{ csrf_token('delete' ~ user.id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-link m-0" title="Eliminar"><i
+                                            class="icon-eraser3 text-danger-800"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+{% endblock %}

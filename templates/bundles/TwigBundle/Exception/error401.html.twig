@@ -1,0 +1,23 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}Error 401 - Prohibido{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+    {% include 'bundles/TwigBundle/Exception/_template_errors.html.twig'
+        with { error_code : 401,
+                message : "Acceso Prohibido",
+                description : "Estas intentando acceder a un recurso para el que no tienes permisos. "} %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}

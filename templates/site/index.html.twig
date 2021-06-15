@@ -1,0 +1,32 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+
+        <div class="d-none d-md-block">
+            {{ include('site/_desktop_view_index.html.twig') }}
+        </div>
+
+        <div class="d-block d-md-none top-0">
+            {{ include('site/_mobile_table_view_index.html.twig') }}
+        </div>
+
+
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(() => {
+            $('.nav-bar-items a').removeClass('active-nav-page-border font-sofia-bold');
+            $('#home').addClass('active-nav-page-border font-sofia-bold')
+        })
+
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,531 @@
+<!-- 2 columns form -->
+{#{{ dump(product.idDecorated.id ,decorated ) }}#}
+<form class="form-horizontal" action="{{ action }}" id="formTest" method="post" onsubmit="return CheckForm()"
+      enctype="multipart/form-data">
+    {# onsubmit="CheckForm(); return false" #}
+    {% if modo == 'edit' %}
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="idProduct" value="{{ product.id }}">
+    {% endif %}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+
+            <h1 class="panel-title text-center">
+                {% if modo == 'edit' %}
+                    Editar producto
+                {% else %}
+                    Crear producto
+                {% endif %}
+            </h1>
+            <hr>
+            {# <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li>
+                        <li><a data-action="reload"></a></li>
+                        <li><a data-action="close"></a></li>
+                    </ul>
+                </div> #}
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <fieldset>
+                        {# <legend class="text-semibold"><i class="icon-reading position-left"></i> Personal details</legend> #}
+                        <h2>Producto</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Producto: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="decorated" id="decorated"
+                                        required="required">
+                                    {# <option selected>-- Decorado --</option> #}
+                                    <option value="">-- Decorado --</option>
+                                    {% for decorate in decorated %}
+                                      //  {{ dump(decorate) }}
+                                        {% set selected = '' %}
+                                        {% if product.idDecorated.id == decorate.id %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ decorate.id }}" {{ selected }}>{{ decorate.name }}</option>
+                                    {% endfor %}
+
+
+                                </select>
+                            </div>
+                            {# <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Decorado"
+                                           value="{{ product.name }}"> #}
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="name">Nombre: <span class="text-danger">*</span></label>
+                            <div class="col-lg-9">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Ej. Azulejo"
+                                       value="{{ product.name }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="reference">Referencia: <span class="text-danger">*</span></label>
+                            <div class="col-lg-9">
+                                <input type="text" name="reference" id="reference" class="form-control"
+                                       placeholder="Ej. AZW321"
+                                       value="{{ product.reference }}" required>
+
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <h2>Caracteristicas :</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="format">Formato: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="format" id="format"
+                                        required="required">
+                                    <option value="">-- Formato --</option>
+                                    {% for format in formats %}
+                                        {% set selected = '' %}
+                                        {# #} {% if product.idFormat.id is same as (format.id) %}
+                                        {% set selected = 'selected' %}
+                                    {% endif %}
+                                        <option value="{{ format.id }}" {{ selected }}>{{ format.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Set :</label>
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    {% if modo == 'create' %}
+                                        <div class="col-xs-5 checkbox">
+                                            <label class="col-md-2" for="">Set<input type="checkbox" name="set"
+                                                                                     id="setCheckBox">
+                                            </label>
+                                        </div>
+                                        <div id="quantitySetDiv">
+                                            <div class="col-xs-3">
+                                                {# <label class="control-label mt-10" for="setQuantity">Cantidad: </label> #}
+                                            </div>
+                                            <div class="col-xs-3">
+                                                {# <select name="setQuantity" id="setQuantity" class="select selectSet">
+                                                    <option value="1">1</option>
+                                                    {% for i in range (1,20) %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                    {% endfor %}
+                                                </select> #}
+                                                {# #}
+                                                <input type="text" name="setQuantity" id="setQuantity" value="1"
+                                                       hidden>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if modo == 'edit' %}
+
+                                        {% if product.setProduct != 1 %}
+                                            <div class="col-xs-5 checkbox">
+                                                <label class="col-md-2" for="">Set<input type="checkbox" name="set"
+                                                                                         id="setCheckBox" checked>
+                                                </label>
+                                            </div>
+                                            <div id="quantitySetDiv">
+                                                <div class="col-xs-3">
+                                                    {# #} <label class="control-label mt-10"
+                                                                 for="setQuantity">Cantidad: </label>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <select name="setQuantity" id="setQuantity"
+                                                            class="selectSet">
+{#                                                        <option value="1">1</option>#}
+                                                        {% for i in range (2,20) %}
+                                                            {% set selected = '' %}
+                                                            {# #}
+                                                            {% if product.setProduct is same as (i) %}
+                                                                {% set selected = 'selected' %}
+                                                            {% endif %}
+                                                            <option value="{{ i }}" {{ selected }}>{{ i }}</option>
+                                                        {% endfor %}
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+
+                                        {% else %}
+                                            <div class="col-xs-5 checkbox">
+                                                <label class="col-md-2" for="">Set<input type="checkbox" name="set"
+                                                                                         id="setCheckBox">
+                                                </label>
+                                            </div>
+                                            <div id="quantitySetDiv">
+                                                <div class="col-xs-3">
+                                                    {# <label class="control-label mt-10" for="setQuantity">Cantidad: </label> #}
+                                                </div>
+                                                <div class="col-xs-3">
+
+                                                    <input type="text" name="setQuantity" id="setQuantity" value="1"
+                                                           hidden>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="use">Uso: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="use" id="use"
+                                        required="required">
+                                    <option value="">-- Uso --</option>
+                                    {% for use in uses %}
+                                        {% set selected = '' %}
+                                        {# #} {% if product.idUse.id is same as (use.id) %}
+                                        {% set selected = 'selected' %}
+                                    {% endif %}
+                                        <option value="{{ use.id }}" {{ selected }}>{{ use.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="zone">Zona: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="zone" id="zone"
+                                        required="required">
+                                    <option value="">-- Zona --</option>
+                                    {% for zone in zones %}
+                                        {% set selected = '' %}
+                                        {% if product.idZone.id is same as (zone.id) %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ zone.id }}" {{ selected }}>{{ zone.name }}</option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="material">Material: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="material" id="material"
+                                        required="required">
+                                    <option value="">-- Material --</option>
+                                    {% for material in materials %}
+                                        {% set selected = '' %}
+                                        {% if product.idMaterial.id is same as (material.id) %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ material.id }}" {{ selected }}>{{ material.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="type">Tipo: <span
+                                        class="text-danger">*</span></label>
+
+                            <div class="col-lg-9">
+                                <select data-placeholder="" class="form-control" name="type" id="type"
+                                        required="required">
+                                    <option value="">-- Tipo --</option>
+                                    {% for type in productTypes %}
+                                        {% set selected = '' %}
+                                        {# #} {% if product.idType.id is same as (type.id) %}
+                                        {% set selected = 'selected' %}
+                                    {% endif %}
+                                        <option value="{{ type.id }}" {{ selected }}>{{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-5 ml-20 ">
+                    <fieldset>
+                        <h2>Stock</h2>
+
+                        <div class="stock-almacen">
+                            {% if modo == 'create' %}
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="sw1">Almacen: <span
+                                                class="text-danger">*</span></label>
+                                    <div class="col-lg-9" id="warehouseDiv">
+                                        <select data-placeholder="" class="form-control warehouseControl" name="sw1"
+                                                id="sw1" required="required">
+                                            <option value="">-- Almacen --</option>
+                                            {% for warehouse in warehouses %}
+                                                {% set selected = '' %}
+                                                {% if product.idType is same as (warehouse.id) %}
+                                                    {% set selected = 'selected' %}
+                                                {% endif %}
+                                                <option value="{{ warehouse.id }}" {{ selected }}>{{ warehouse.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label" for="ws1">Cantidad: <span class="text-danger">*</span></label>
+                                    <div class="col-lg-9">
+                                        <input type="text" name="ws1" id="ws1" class="form-control"
+                                               placeholder="Ej. 5400"
+                                               value="{{ product.name }}" required>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if modo == 'edit' %}
+                                {% for warehouseSelected in warehousesByProduct %}
+                                    {# {{ dump(warehouseSelected) }} #}
+                                    <input type="hidden" name="{{ 'warehouseStockId' ~ warehouseSelected.id }}"
+                                           value="{{ warehouseSelected.id }}"
+                                           id="{{ 'hiddenWSId'~ warehouseSelected.id }}">
+                                    <div class="form-group">
+
+                                        <label class="col-lg-3 control-label" for="sw1">Almacen: <span
+                                                    class="text-danger">*</span></label>
+                                        <div class="col-lg-9" id="{{ 'warehouseDiv' ~ warehouseSelected.idWarehouse }}">
+
+                                            <select data-placeholder="" class="form-control warehouseControl"
+                                                    name="{{ 'sw' ~ warehouseSelected.id }}"
+                                                    id="{{ 'sw' ~ warehouseSelected.id }}" required="required"
+                                                    class="{{ 'selectWS' ~ warehouseSelected.id }}"
+                                            readonly>
+{#                                                <option value="">-- Almacen --</option>#}
+                                                {% for warehouse in warehouses %}
+{#                                                    {% set selected = '' %}#}
+                                                    {% if warehouseSelected.idWarehouse is same as (warehouse.id) %}
+
+                                                        {% set selected = 'selected' %}
+                                                        <option value="{{ warehouse.id }}" selected>{{ warehouse.name }}</option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label"
+                                               for="{{ 'ws' ~ warehouseSelected.id }}">Cantidad:
+                                            <span
+                                                    class="text-danger">*</span></label>
+                                        <div class="col-lg-9">
+                                            <input type="text"
+                                                   name="{{ 'ws' ~ warehouseSelected.id }}"
+                                                   id="{{ 'ws' ~ warehouseSelected.id }}"
+                                                   class="form-control {{ 'stockWS' ~ warehouseSelected.id }}"
+                                                   placeholder="Ej. 5400"
+                                                   value="{{ warehouseSelected.stock }}" required>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-12 control-label mr-20"
+                                               for="{{ 'deleteWSid' ~ warehouseSelected.id }}">
+                                            Eliminar Almacen <input type="checkbox"
+                                                                    name="{{ 'deleteWSid' ~ warehouseSelected.id }}"
+                                                                    id="{{ 'deleteWS' ~ warehouseSelected.id }}"
+                                                                    onchange="DisableWareHouseToDelete( {{ 'deleteWS' ~ warehouseSelected.id }},
+                                                                    {{ 'sw' ~ warehouseSelected.id }},
+                                                                    {{ 'ws' ~ warehouseSelected.id }},
+                                                                    {{ 'helper' ~ warehouseSelected.id }}  ,
+                                                                    {{ 'hiddenWSId'~ warehouseSelected.id }})
+                                                                            "
+                                                                    value="{{ warehouseSelected.id }}">
+                                        </label>
+                                        <small class="col-lg-12 text-danger-800 mt-10"
+                                               id="{{ 'helper' ~ warehouseSelected.id }}"></small>
+                                    </div>
+
+
+                                    <hr>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">Agregar mas almacenes</label>
+                            <div class="col-lg-6">
+                                <button class="btn btn-lg btn-primary" type="button"
+                                         {% if modo == 'create' %}
+                                            id="addWarehouses"
+                                         {% else %}
+                                            id="addNewWarehouses"
+                                          {% endif %}>Agregar<i
+                                            class="icon-add position-right"></i></button>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h2>Precio</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="price">Precio: <span class="text-danger">*</span></label>
+                            <div class="col-lg-9">
+                                <input type="text" name="price" value="{{ product.price }}" id="price"
+                                       placeholder="Ej: 250.25" class="form-control mb-10" required >
+                                <small class="text-danger-800">Usa un punto para separar los decimales.</small>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="currency">Divisa:</label>
+                            <div class="col-lg-9" id="warehouseDiv">
+                                <select data-placeholder="" class="form-control" name="currency" id="currency"
+                                >
+
+                                    {% if currencies|length > 1 %}
+                                        <option value="">-- Divisa --</option>
+                                    {% endif %}
+
+                                    {% set selected = '' %}
+                                    {% for currency in currencies %}
+                                        {% set selected = '' %}
+
+                                        {% if currency.id is same as (product.idCurrency) %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ currency.id }}" {{ selected }}>{{ currency.name }}</option>
+                                    {% else %}
+                                        <option value="{{ currencies.id }}" {{ selected }}>{{ currencies.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="discount">Descuento:</label>
+                            <div class="col-lg-9">
+                                <input type="text" name="discount" id="discount" placeholder="Ej. 20"
+                                       class="form-control mb-10" value="{{ product.discount }}">
+                                <small class="text-danger-800">Introduce el porcentaje de descuento sin incluir  % </small>
+                            </div>
+                        </div>
+                        {% if modo == 'create' %}
+                            <hr>
+
+                            <h2>Fotos</h2>
+
+                            <div id="media">
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Ambiente: </label>
+                                    <div class="col-lg-9">
+                                        <input type="file" name="ambient" class="file-styled">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Portada:</label>
+                                    <div class="col-lg-9">
+                                        <input type="file" name="cover" class="file-styled">
+                                    </div>
+                                </div>
+
+                                <div id="tinyImg">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Miniaturas:</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" name="min" class="file-styled">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-lg-6 control-label">Agregar mas fotos miniatura</label>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-lg btn-primary" type="button" id="addTinyImage"
+                                    >
+                                        Mas<i class="icon-add position-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+
+                        {% endif %}
+
+
+                    </fieldset>
+
+                    <hr>
+
+
+                </div>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3 col-xs-6">
+                        <button type="button" class="btn btn-lg btn-danger mb-20"><i
+                                    class="icon-cancel-circle2 position-left"></i>Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <button type="submit" class="btn btn-lg btn-primary mb-20">
+                            {{ btn_form|default('Crear') }}
+                            producto <i
+                                    class="icon-arrow-right14 position-right"></i></button>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% if modo == 'edit' %}
+    {% include 'admin/product/_edit_product_images.html.twig' with
+        { imageCoverUrl : imageCoverUrl , imageAmbientUrl : imageAmbientUrl, minImagesUrl : minImagesUrl,
+            product : product , decorated : decorated } %}
+{% endif %}
+
+{#</div>
+
+
+</div>#}
+{# onclick="CheckForm()" #}
+{#
+</div>
+
+
+</div>
+#}
+

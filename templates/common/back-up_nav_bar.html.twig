@@ -1,0 +1,176 @@
+<div class="p-3 navegation">
+<nav class="navbar navbar-expand-lg navbar-light" id="main_navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img src="{{ asset('images/estilker_logo.png') }}" alt="logo" width="80%"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item me-1">
+                    <a class="nav-link active font-sofia-bold" id="home" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown to-expand">
+                    <span id="catalogue">
+                    <a class="nav-link dropdown-toggle font-sofia-bold" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Catalogo
+                    </a>
+                    </span>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="to-hide">
+                        {#<li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>#}
+
+
+                        <!-- Start cuisine section with dropdown-->
+                        <li class="nav-item dropdown">
+
+                            <a class="dropdown-item dropdown-toggle"
+                               id="navbarDropdown1" href="#" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                            Cocina
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                {#                                <li><a class="dropdown-item" href="#">Cuarto fuego</a></li>#}
+                                {#                                <li></li><a class="dropdown-item" href="#">Tercer fuego<</a></li>#}
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Pasta Roja
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                        <li><a class="dropdown-item text-center" href="#">50 x 100</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item text-center" href="#">20 x 40</a></li>
+
+                                        {#                                        <li></li><a class="dropdown-item" href="#">Something else here</a></li>#}
+                                    </ul>
+                                </li>
+
+                                <div class="dropdown-divider"></div>
+                                {#                                <li></li><a class="dropdown-item" href="#">Cuarto fuego<</a></li>#}
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Cuarto fuego
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                        <li><a class="dropdown-item text-center" href="#">20 x 40</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item text-center" href="#">30 x 60</a></li>
+                                        {# <div class="dropdown-divider"></div>
+                                        <li></li><a class="dropdown-item" href="#">Something else here</a></li>#}
+                                    </ul>
+                                </li>
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item" href="{{ path('products_by_zone' , {'id' : 6}) }}">Ver todo de cocina</a></li>
+                            </ul>
+                        </li>
+                        <!-- End cuisine section with dropdown-->
+
+
+                        <div class="dropdown-divider"></div>
+{#                        <li></li><a class="dropdown-item" href="#">Something else here</a></li>#}
+
+                        <!-- Start bathroom section with dropdown-->
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-item dropdown-toggle" href="{{ path('products_by_zone' , {'id' : 5}) }}" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                Baño
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+{#                                <li><a class="dropdown-item" href="#">Cuarto fuego</a></li>#}
+{#                                <li></li><a class="dropdown-item" href="#">Tercer fuego<</a></li>#}
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Tercer fuego
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <div class="dropdown-divider"></div>
+{#                                        <li></li><a class="dropdown-item" href="#">Something else here</a></li>#}
+                                    </ul>
+                                </li>
+
+                                <div class="dropdown-divider"></div>
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Cuarto fuego
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                        <li><a class="dropdown-item text-center" href="#">20 x 40</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item text-center" href="#">30 x 60</a></li>
+                                       {# <div class="dropdown-divider"></div>
+                                        <li></li><a class="dropdown-item" href="#">Something else here</a></li>#}
+                                    </ul>
+                                </li>
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item" href="{{ path('products_by_zone' , {'id' : 5}) }}">Ver todo de Baño</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- End bathroom section with dropdown-->
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item me-1">
+                    <a class="nav-link font-sofia-bold" id="sets" href="{{ path('set_products') }}">Sets</a>
+                </li>
+                <li class="nav-item me-1">
+                    <a class="nav-link font-sofia-bold" id="us" href="{{ path('us') }}">Quienes somos</a>
+                </li>
+                <li class="nav-item me-1">
+                    <a class="nav-link font-sofia-bold" id="contact" href="{{ path('contact') }}">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger font-sofia-bold" id="outlet" href="{{ path('outlet') }}">Outlet</a>
+                </li>
+
+                {#<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>#}
+            </ul>
+
+            <a href="{{ path('get_cart') }}"><button class="notification p-1 ps-3 pe-3 text-decoration-none">
+                <span>Finalizar pedido</span>
+                <span class="custom-badge badge rounded-pill bg-info" id="cartQuantity">{{ app.session.get('details')|length }}
+</span>
+            </button></a>
+        </div>
+    </div>
+</nav>
+</div>
+
+<div class="container mt-3">
+    {#    {{ dump(app.flashes) }}#}
+    {% for message in app.flashes('fail') %}
+        <div class="alert alert-danger alert-dismissible fade show alert-bordered" role="alert">
+            <span class="font-sofia-regular">{{ message }}</a></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span class="sr-only"></span></button>
+
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show alert-bordered" role="alert">
+            <span class="font-sofia-regular">{{ message }}</a></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><span class="sr-only"></span></button>
+        </div>
+    {% endfor %}
+</div>

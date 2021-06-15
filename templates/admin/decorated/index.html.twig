@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+        {% block stylesheets %}
+
+            {{ parent() }}
+            <!-- Global stylesheets -->
+
+            <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+
+
+        {% endblock %}
+
+{% block body %}
+
+    <!-- Basic datatable -->
+
+    <div class="panel panel-flat container">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Tipos de Decorado</h5>
+        </div>
+
+        <div class="categoryTable">
+        <table class="table text-center">
+            <thead>
+            <tr >
+                <th class="text-center">Id</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for dec in Decorated %}
+          <tr>
+                <td class="text-center">{{ dec.id }}</td>
+                <td class="text-center">{{ dec.name }}</td>
+                <td class="text-center">
+                    <span ><a href="{{ path('edit_decorated_get', { id : dec.id }) }}">
+                            <button type="button" id="upButton" class="btn btn-xs btn-warning"><i class="icon-pencil6 position-left"></i>Editar</button></a></span>
+                  {#  <span>
+                        <button type="button" class="btn btn-xs btn-danger" onclick="SubmitFormDeleteItem({{ 'deleteZone' ~ type.id }})"><i class="icon-eraser position-left"></i>Borrar</button>
+                    </span>
+                    <form method="post" action="{{ path('delete_zone', {'id': type.id}) }}" id="{{ 'deleteZone' ~ type.id }}"
+                          onsubmit="return confirm('Estas seguro de borrar este tipo de producto?');">
+                        <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
+                        <input type="hidden" name="_method" value="DELETE"></form>
+                </td>#}
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <!-- /basic datatable -->
+{#
+{% include 'category/_form.html.twig' with { 'action' : path('create_zone_post') , modo : "Crear"} %}#}
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+    <script src=" {{ asset('js/app/utils/DeleteFormEntity.js') }}"></script>
+
+{#        <script src="{{ asset('js/app/category/CreateAndEditZoneForm.js') }}"></script>#}
+
+
+{% endblock %}
+

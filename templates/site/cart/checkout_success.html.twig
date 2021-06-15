@@ -1,0 +1,82 @@
+{% extends 'site/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/site/publicStyles.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <input type="hidden" value="{{ hashedText }}" name="pdf">
+    <div class="col-8 mx-auto">
+        <div class="text-center mb-5"><img src="{{ asset('images/cart_success_order.png') }}" alt=""></div>
+{#      {{ render(controller('App\\Controller\\PdfMakerController::pdfMaker', { 'hashedText' : hashedText})) }}#}
+        <h1 class="text-center font-sofia-bold">¡Pedido #{{ order_number }} realizado con exito!</h1>
+        <h2 class="text-justify">Gracias por realizar su pedido con nosotros. En breve nuestros comerciales se pondran en contacto con usted.</h2>
+        <div class="row">
+            <div class="col-md-6 mt-3 text-center text-md-end">
+                <a href="{{ path('pdf_maker', {'hashedText' : hashedText }) }}"
+                   class="btn fs-6 font-sofia-bold generate download-catalogue-sucess" id="generate">
+                    {#            <img class="me-2" src="{{ asset('images/download-cloud.png') }}" alt="Descarga">#}
+                    <i class="icon-file-pdf me-2"></i>Genera tu PDF aquí
+                </a>
+            </div>
+
+            <div class="col-md-6 mt-3 text-center text-md-start">
+                <a href="{{ path('catalogue') }}"  class="btn fs-6 font-sofia-bold" id="see-more">Sigue viendo productos</a>
+            </div>
+        </div>
+        <h2 class="text-center mt-5">También puedes contactarnos por WhatsApp o Email</h2>
+        <div class="row mt-3">
+            <div class="col-md-6 text-center text-md-end" >
+                <button class="btn fs-6 font-sofia-bold estilker-border">
+                    <a
+                            href="https://api.whatsapp.com/send?phone=573156122776&text=Hola!%20Quiero%20consultar%20el%20estado%20de%20mi%20pedido%20numero%20{{ nzo_decrypt(hashedText) }}%20."
+                            target="_blank"
+                            class="text-decoration-none text-dark">
+                        <i class="me-2"><img src="{{ asset('images/logos/whatsapp.png') }}" alt="WhatsApp"
+                                             id="whatsapp"></i>WHATSAPP
+                    </a>
+                </button>
+
+            </div>
+
+            <div class="col-md-6 text-center text-md-start">
+                <button class="btn fs-6 font-sofia-bold estilker-border">
+                <a href="mailto:servicioalcliente@estilkercolombia.co?subject=Hola! Quiero consultar el estado de mi pedido numero {{ nzo_decrypt(hashedText) }}."
+                  class="text-decoration-none text-dark" >
+                        <i class="me-2"><img src="{{ asset('images/logos/rrss/cart_icon_mail.png') }}" width="42" alt="Email"></i>
+                        MAIL
+                </a>
+                </button>
+            </div>
+        </div>
+       {# <h3>Genera tu PDF pinchando <a id="generate" href="{{ path('pdf_maker', {'hashedText' : hashedText }) }}">aquí</a></h3>
+        <h3><a href="{{ path('catalogue') }}">Sigue viendo más productos.</a></h3>#}
+{#        <a class="text-decoration-none " href="{{ path('pdf_maker', {'hashedText' : hashedText }) }}">#{{ order_number }}</a>#}
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $(document).ready(()=>{
+             document.getElementById('generate').click();
+        })
+    </script>
+{#    <script src="{{ asset('js/app/site/deleteItemFromCart.js') }}"></script>
+    <script src="{{ asset('js/app/site/productQuantityCartControl.js') }}"></script>
+    <script src="{{ asset('js/app/site/jquery_numeric.js') }}"></script>
+    <script src="{{ asset('js/app/site/checkoutForm.js') }}"></script>#}
+
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% set parameters = route_parameters is defined ? route_parameters : {} %}
+{% set route_name = route_name is defined ?
+    route_name : app.request.attributes.get('_route') %}
+{% set total = number_pages %}
+{% set nearbyPagesLimit = 2 %}
+
+    {% if total > 1 %}
+        <ul class="pagination justify-content-center">
+            {% if current_page > 1 %}
+                {#            <li class="page-item {{ current_page == 1 ? 'disabled' }}">#}
+                <li class="page-item">
+                    <a class="page-link font-sofia-bold"
+                       href="{{
+                       path(route_name,
+                           {
+                               page: current_page - 1 < 1 ? 1 : current_page - 1
+                           }|merge(parameters)
+                       )
+                       }}">
+                        {#                    &laquo;#}
+                        <span>&lt;</span>
+                        {#                    <span>Anterior</span>#}
+                    </a>
+                </li>
+            {% endif %}
+            {% for i in 1..total %}
+                {% if 0 == (current_page - nearbyPagesLimit) - loop.index %}
+                    <li class="page-item">
+                        <a class="page-link font-sofia-bold"
+                           href="{{
+                           path(route_name,
+                               {
+                                   page:1
+                               }|merge(parameters)
+                           )
+                           }}">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    {% if 1 != loop.index %}
+                        <li class="page-item">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% elseif 0 == (current_page + nearbyPagesLimit) - loop.index  and (current_page + nearbyPagesLimit) < total %}
+                    <li class="page-item">
+                        <a href="javascript:void(0)" class="page-link">...</a>
+                    </li>
+                {% elseif 0 < (current_page - nearbyPagesLimit) - loop.index %}
+                {% elseif 0 > (current_page + nearbyPagesLimit) - loop.index %}
+                {% else %}
+                    <li class="page-item{{ current_page == loop.index ? ' active' }} ">
+                        <a class="page-link font-sofia-bold"
+                           href="{{
+                           path(route_name,
+                               {
+                                   page:i
+                               }|merge(parameters)
+                           )
+                           }}">
+                            <span>{{ i }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if current_page != total  and (current_page + nearbyPagesLimit) < total %}
+                <li class="page-item">
+                    <a class="page-link font-sofia-bold"
+                       href="{{
+                       path(route_name,
+                           {
+                               page:total
+                           }|merge(parameters)
+                       )
+                       }}">
+                        <span>{{ total }}</span>
+                    </a>{% endif %}
+                    {% if current_page < number_pages %}
+                    {#            <li class="page-item {{ current_page == number_pages  ? 'disabled' }} font-sofia-bold" >#}
+            <li class="page-item font-sofia-bold" >
+                <a class="page-link"
+                   href="{{
+                   path(route_name,
+                       {
+                           page: current_page + 1 <= number_pages  ? current_page + 1 : current_page
+                       }|merge(parameters)
+                   )
+                   }}">
+                    {#                    &raquo;#}
+                    <span>&gt;</span>
+                    {#                    <span>Siguiente</span>#}
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+

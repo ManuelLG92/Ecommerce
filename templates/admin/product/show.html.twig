@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+{% block body %}
+
+
+{# {{ dump(product) }}#}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h1 class="panel-title text-center">Producto: {{ product.name }}</h1>
+            <hr class="line_break">
+
+        </div>
+
+        <div class="panel-body font-product-show">
+
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1 mb-20">
+
+                    <fieldset>
+                        <h2 class="text-center">Descripcion</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="decorated">Producto: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.decorated }}</p>
+                            </div>
+
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="name">Nombre: </label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.name }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="reference">Referencia: </label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.reference }}</p>
+                            </div>
+                        </div>
+                        <hr class="line_break">
+                        <h2 class="mt-10 text-center">Caracteristicas</h2>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="format">Formato: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.format }}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Set :</label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.productSet }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Caja :</label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.box }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="use">Uso: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.productUse }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="zone">Zona: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.zone }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="material">Material: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.material }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="type">Tipo: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.productType }}</p>
+                            </div>
+                        </div>
+{#{{ dump(product) }}#}
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="country">Pais: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.country }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="country">Marca: </label>
+
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.brand }}</p>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-5 mb-20">
+                    <fieldset>
+                        <h2 class="text-center">Stock</h2>
+                        {% if product.stock|length > 0 %}
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="ws1">Total: </label>
+                            {% set totalStock = 0 %}
+                            {% for stocks in product.stock %}
+                                {% set totalStock = totalStock + stocks.stock %}
+                            {% endfor %}
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ totalStock }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+
+                            {% for stocks in product.stock %}
+                            <hr class="sub_line_break">
+                            <label class="col-lg-3 control-label" for="sw1">Almacen: </label>
+                            <div class="col-lg-9 " id="warehouseDiv">
+                                <p class="form-control">{{ stocks.warehouse }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="ws1">Cantidad: </label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ stocks.stock }}</p>
+                            </div>
+
+                            {% endfor %}
+
+                            {% endif %}
+
+                        </div>
+                        <hr class="line_break">
+                        <h2>Precio</h2>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="price">Precio: </label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.price }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="currency">Divisa:</label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.currency }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label" for="discount">Descuento:</label>
+                            <div class="col-lg-9">
+                                <p class="form-control">{{ product.discount }}</p>
+                            </div>
+                        </div>
+
+
+
+                    </fieldset>
+
+
+                </div>
+
+
+            </div>
+            <div class="col-md-12">
+                <hr class="sub_line_break">
+                <div class="text-center">
+                    <a href="{{ path('edit_product_get',{'id': product.id}) }}" class="btn btn-lg btn-primary mt-20"><i class="icon-pencil6"></i> Editar</a>
+                </div>
+            </div>
+            <hr class="line_break">
+            <div class="col-md-12">
+                <h2 class="text-center">Fotos</h2>
+                <hr class="sub_line_break">
+                <h4 class="text-center">Foto de portada: </h4>
+
+         {#      {% for cover in  product.imageCoverUrl %}#}
+                {%  if product.imageCoverUrl is not null %}
+                <div class="col-md-12 mb-20">
+                        <div class="text-center">
+                        <img  onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/'~ product.imageCoverUrl) }}" alt="Cover picture"></div>
+                    </div>
+                {% else %}
+                <h4 class="text-center">No hay imagen de portada para este producto</h4>
+                {% endif %}
+       {#         {% else %}
+                <h5 class="text-center">No hay foto de portada para este producto </h5>
+                {% endfor %}#}
+
+                <hr class="sub_line_break">
+                <h4 class="text-center">Foto de Ambiente: </h4>
+                {%  if product.imageAmbientUrl is not null %}
+                <div class="text-center">
+                    <img  onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"' src="{{ asset('product_images/'~ product.imageAmbientUrl) }}" alt="Ambient picture" height="500em" width="80%"></div>
+            </div>
+            {% else %}
+                <h4 class="text-center">No hay imagen de ambiente para este producto</h4>
+            {% endif %}
+
+                <hr class="sub_line_break">
+                <h4 class="text-center">Fotos miniaturas: </h4>
+
+                {% for min in  product.minImagesUrl %}
+                    <div class="col-md-6 mb-20 border">
+                        <div class="text-center images-border">
+                            <img src="{{ asset('product_images/'~min.imageUrl) }}" alt="Ambient picture" height="250em" width="80%">
+                        </div>
+                    </div>
+                {% else %}
+                    <h4 class="text-center">No hay fotos miniaturas para este producto</h4>
+                {% endfor %}
+
+            </div>
+            <hr class="line_break">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <a href="{{ path('edit_product_get',{'id': product.id}) }}" class="btn btn-lg btn-primary mt-20"><i class="icon-pencil6"></i> Editar</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

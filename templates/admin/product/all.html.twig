@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+
+
+
+{% block body %}
+
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Productos</h5>
+
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <form action="{{ path('filter_admin_products') }}" method="GET" id="formFilterProduct">
+
+                    <div class="col-sm-2 col-xs-12 text-centered vertical-center">
+                        <br>
+                        <p>Filtrar por: </p>
+                    </div>
+                    <div class="col-sm-2 col-xs-6 text-centered mt-5">
+                        <label for="zone">Zona &nbsp;</label>
+
+                        <select name="zone" id="zone" class="select">
+
+                            {% for zone in zones %}
+                                {% set selected = '' %}
+                                {% if selectedZone == zone.id %}
+                                    {% set selected = 'selected' %}
+                                {% endif %}
+                                <option value="{{ zone.id }}" {{ selected }}>{{ zone.name }}</option>
+                            {% endfor %}
+                            {% set selected = '' %}
+                            {% if selectedZone == "" %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option value="" {{ selected }}>Todas</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-6 text-centered mt-5">
+                        <label for="material">Acabados&nbsp;</label>
+                        <select name="material" id="material" class="select">
+                            {% for material in materials %}
+                                {% set selected = '' %}
+                                {% if selectedMaterial == material.id %}
+                                    {% set selected = 'selected' %}
+                                {% endif %}
+                                <option value="{{ material.id }}" {{ selected }}>{{ material.name }}</option>
+                            {% endfor %}
+                            {% set selected = '' %}
+                            {% if selectedMaterial == "" %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option value="" {{ selected }}>Todos</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-6 text-centered mt-5">
+                        <label for="format">Formato &nbsp;</label>
+                        <select name="format" id="format" class="select">
+                            {% for format in formats %}
+                                {% set selected = '' %}
+                                {% if selectedFormat == format.id %}
+                                    {% set selected = 'selected' %}
+                                {% endif %}
+                                <option value="{{ format.id }}" {{ selected }}>{{ format.name }}</option>
+                            {% endfor %}
+                            {% set selected = '' %}
+                            {% if selectedFormat == "" %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option value="" {{ selected }}>Todos</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-6 text-centered mt-5">
+                        <label for="type">Tipos &nbsp;</label>
+                        <select name="type" id="type" class="select">
+                            {% for type in types %}
+                                {% set selected = '' %}
+                                {% if selectedType == type.id %}
+                                    {% set selected = 'selected' %}
+                                {% endif %}
+                                <option value="{{ type.id }}" {{ selected }}>{{ type.name }}</option>
+                            {% endfor %}
+                            {% set selected = '' %}
+                            {% if selectedType == "" %}
+                                {% set selected = 'selected' %}
+                            {% endif %}
+                            <option value="" {{ selected }}>Todos</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-xs-6 text-centered my-auto">
+                        <br>
+                        <button class="btn btn-lg btn-primary" type="submit">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <table class="table datatable-basic table-bordered">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Referencia</th>
+                <th>Formato</th>
+                <th>Tipo</th>
+                <th>Acabados</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr >
+                    <td><a href="{{ path('show_product', { 'id' : product.id }) }}">{{ product.name }}</a></td>
+                    <td>{{ product.reference }}</td>
+                    <td>{{ product.format }}</td>
+                    <td>{{ product.productType }}</td>
+                    <td>{{ product.material }}</td>
+                    <td>{{ product.price }}</td>
+                    <td class="text-center">
+
+                        <select name="stock" id="stock" class="select">
+                            {% set totalStock = 0 %}
+                            {% for stocks in product.stock %}
+                                {% set totalStock = totalStock + stocks.stock %}
+                            {% endfor %}
+                            <option value=""> Total: {{ totalStock }}</option>
+                            {% for stocks in product.stock %}
+
+                                <option value="{{ stocks.warehouse }}">{{ stocks.warehouse }}
+                                    - {{ stocks.stock }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </td>
+                    <td class="text-center">
+
+                        <a href="{{ path('show_product',{ 'id' : product.id }) }}" class="mr-20 text-default"
+                           title="Ver"><i class="icon-search4"></i></a>
+                        <a href="{{ path('edit_product_get',{'id': product.id}) }}" class="mr-10 text-warning-800"
+                           title="Editar"><i class="icon-pencil6"></i></a>
+                        {% if is_granted("ROLE_SUPER_ADMIN") %}
+                        <div class="display-inline-block">
+                            <form method="post" action="{{ path('delete_product', {'id': product.id}) }}"
+                                  onsubmit="return confirm('Estas seguro de borrar este producto?');">
+                                <input type="hidden" class="" name="_token"
+                                       value="{{ csrf_token('delete' ~ product.id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="btn btn-link m-0" title="Eliminar"><i
+                                            class="icon-eraser3 text-danger-800"></i></button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {# <form method="post" action="{{ path('delete_product', {'id': product.id}) }}"
+                              onsubmit="return confirm('Estas seguro de borrar este producto?');">
+                            <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn btn-link m-0" title="Eliminar"> <i class="icon-eraser3"></i></button>
+                        </form> #}
+
+                        {# <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-menu9"></i>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right width-ul-products">
+                                    <li><a href="{{ path('show_product',{ 'id' : product.id }) }}" title="Ver"><i class="icon-search4"></i>Ver</a></li>
+                                    <li><a href="{{ path('edit_product_get',{'id': product.id}) }}" title="Editar"><i class="icon-pencil6"></i>Editar</a></li>
+                                    <li>
+                                        <form method="post" action="{{ path('delete_product', {'id': product.id}) }}"
+                                              onsubmit="return confirm('Estas seguro de borrar este producto?');">
+                                            <input type="hidden"  class="" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn btn-link m-0" title="Eliminar"> <i class="icon-eraser3"></i>&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</button>
+                                        </form>
+                                   </li>
+                                </ul>
+                            </li>
+                        </ul> #}
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /basic datatable -->
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    {# Filter by name - Algolia - V  -#}
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+
+{% endblock %}

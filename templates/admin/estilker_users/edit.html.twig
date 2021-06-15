@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/estilker_users/_form.html.twig' with { action: path('edit_estilker_user_put') ,modo : 'editar', btn_form: 'Editar'} %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{#    <script src="{{ asset('js/app/users/estilker_user_form.js') }}" id="controlEditForm"></script>#}
+    <script src="{{ asset('js/app/users/edit_estilker_user_form.js') }}" id="editFormControl"></script>
+{#    <script src="{{ asset('js/app/users/change_password_estilker_user.js') }}"></script>#}
+{% endblock %}
+

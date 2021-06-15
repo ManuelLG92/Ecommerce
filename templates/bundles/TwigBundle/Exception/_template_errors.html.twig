@@ -1,0 +1,21 @@
+
+    <div class="col-10 mx-auto">
+        <h1 class="error-http-title">{{ error_code  }}</h1>
+        <h2 class="text-center">{{ message }}</h2>
+        <div class="text-center">
+            <img src="{{ asset('images/error_image.png') }}" alt="error image" class="mb-4">
+        </div>
+        <div class="text-center mt-3">
+            <h4>{{ description }} </h4>
+
+            {% if error_code != 503 %}
+            <h5>Puedes contactar con nosotros haciendo click <a href="{{ path('contact') }}">aqui.</a></h5>
+            <div class="col-6 mx-auto mt-3">
+                <a href="{{ path('home') }}">
+                <button class="badge rounded-pill estilker-color text-white p-3 mb-2 fs-4">Volver al inicio</button>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+

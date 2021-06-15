@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+     <div class="panel panel-flat">
+        <div class="panel-heading">
+
+        <div class="col-xs-8">
+           <h1 class="panel-title text-right">Referencia {{ order.reference }}</h1>
+        </div>
+
+         <div class="col-xs-4">
+             <div class="text-right ml-20">
+                <a href="{{ path('pdf_maker', {'hashedText' : hashedText }) }}"
+                class="btn btn-danger btn-rounded pl-20 pr-20 pt-10 pb-10"><i class="icon-file-pdf"></i>   PDF</a>
+             </div>
+         </div>
+
+        </div>
+       <div class="panel-body">
+           <div class="col-md-12">
+               <h4>Nombre: {{ order.user.name }} {{ order.user.surname }}</h4>
+               <h4>Teléfono: {{ order.user.phone }} - Email: {{ order.user.email }}</h4>
+               <h4>Ciudad: {{ order.user.city|lower|capitalize }}, Region: {{ order.user.region|lower|capitalize }}, Pais: {{ order.user.country.countryName|lower|capitalize }}</h4>
+            <hr class="line_break">
+{#{{ dump(hashedText) }}#}
+{#<h4 class="text-center">Productos</h4>#}
+                <div class="col-md-12 mt-20 ">
+                     <div class="col-md-8">
+                        <h4 class="text-center">Producto</h4>
+                     </div>
+
+                     <div class="col-md-4">
+                       <h4 class="text-center">Cantidad</h4>
+                     </div>
+                 </div>
+                 <hr class="sub_line_break">
+                {% for orderDetail in orderDetails %}
+                    <div class="col-md-12 mt-20 mb-20 ">
+                         <div class="col-md-4 mx-auto">
+                             <img width="90%" src="{{ asset('product_images/'~ orderDetail.Product.imageCover) }}" alt="{{ orderDetail.Product.name }}">
+                           </div>
+
+                           <div class="col-md-4 mx-auto">
+                               <h4 >{{ orderDetail.Product.name }}</h4>
+                           </div>
+                           <div class="col-md-4 mx-auto">
+                               <h4 class="text-center">{{ orderDetail.Quantity }}</h4>
+                           </div>
+                    </div>
+               {% endfor %}
+
+               <div class="col-md-12 mt-20 ">
+                   <hr class="line_break">
+                   <div class="col-md-8">
+                        <h4 class="text-right">Total</h4>
+                   </div>
+
+                   <div class="col-md-4">
+                       <h4 class="text-center">{{ total_quantity }}</h4>
+                   </div>
+               </div>
+
+            </div>
+
+     </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+
+{% endblock %}

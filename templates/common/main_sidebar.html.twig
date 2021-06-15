@@ -1,0 +1,133 @@
+<!-- Main sidebar -->
+<div class="sidebar sidebar-main">
+    <div class="sidebar-content">
+
+        <!-- User menu -->
+        <div class="sidebar-user">
+            <div class="category-content">
+                <div class="media">
+                    <a href="#" class="media-left"><img src="{{ asset('images/estilker_logo_footer.png') }}" class="img-circle img-sm" alt="Estilker"></a>
+                    <div class="media-body">
+                        <span class="media-heading text-semibold">{{ app.user.email }}</span>
+                       {# <div class="text-size-mini text-muted">
+                            <i class="icon-pin text-size-small"></i> &nbsp;España
+                        </div>#}
+                    </div>
+{#
+                    <div class="media-right media-middle">
+                        <ul class="icons-list">
+                            <li>
+                                <a href="#"><i class="icon-cog3"></i></a>
+                            </li>
+                        </ul>
+                    </div>#}
+                </div>
+            </div>
+        </div>
+        <!-- /user menu -->
+
+
+        <!-- Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+            <div class="category-content no-padding">
+                <ul class="navigation navigation-main navigation-accordion">
+
+                    <!-- Main -->
+                    <li class="navigation-header"><span>Estilker Colombia</span> <i class="icon-menu" title="Main pages"></i></li>
+                    <li class="active"><a href="#"><i class="icon-home4"></i> <span>Panel de control</span></a></li>
+                    <li>
+                        <a href="#"><i class="icon-stack2"></i> <span>Productos</span></a>
+                        <ul>
+                            <li><a href="{{ path('get_all_products') }}"><i class="icon-list"></i>Ver todos</a></li>
+                            <li><a href="{{ path('create_product_get') }}"><i class="icon-plus-circle2"></i>Crear</a></li>
+                        </ul>
+                    </li>
+                    {% if is_granted("ROLE_SUPER_ADMIN") %}
+
+                    <li>
+                        <a href="#"><i class="icon-user"></i> <span>Clientes</span></a>
+                        <ul>
+                            <li><a href="{{ path('get_all_clients') }}"><i class="icon-list"></i>Ver todos</a></li>
+                            <li><a href="{{ path('create_client_get') }}"><i class="icon-plus-circle2"></i>Crear</a></li>
+
+                        </ul>
+                    </li>
+                        <li>
+                            <a href="#"><i class="icon-users4"></i><span>Usuarios Estilker</span></a>
+                            <ul>
+                                <li><a href="{{ path('get_all_estilker_users') }}"><i class="icon-list"></i>Ver todos</a></li>
+                                <li><a href="{{ path('create_estilker_user_get') }}"><i class="icon-user-plus"></i>Crear</a></li>
+
+                            </ul>
+                        </li>
+                    <li>
+                        <a href="{{ path('get_all_orders') }}"><i class="icon-file-pdf"></i> <span>Pedidos</span></a>
+
+                    </li>
+
+
+                    <li>
+                        <a href="{{ path('admin_get_catalogues') }}"><i class="icon-file-pdf"></i> <span>Catalogos</span></a>
+
+                    </li>
+
+
+                        <li>
+                            <a href="{{ path('get_all_zones') }}"><i class="icon-location3"></i> <span>Zonas</span></a>
+                           {# <ul>
+                                <li><a href="{{ path('get_all_zones') }}">Ver todas</a></li>
+                                <li><a href="{{ path('create_zone_get') }}">Crear</a></li>
+                            </ul>#}
+                        </li>
+
+
+                    <li>
+                        <a href="{{ path('get_all_warehouses') }}"><i class="icon-home7"></i> <span>Almacenes</span></a>
+                        {#<ul>
+                            <li><a href="{{ path('get_all_warehouses') }}">Ver todos</a></li>
+                            <li><a href="{{ path('create_warehouse_get') }}">Crear</a></li>
+                        </ul>#}
+                    </li>
+
+                    <li>
+                        <a href="{{ path('get_all_product_types') }}" ><i class="icon-price-tags"></i> <span>Tipos</span></a>
+                       {# <ul>
+                            <li><a href="{{ path('get_all_product_types') }}">Ver todos</a></li>
+                            <li><a href="{{ path('create_zone_get') }}">Crear</a></li>
+                        </ul>#}
+                    </li>
+
+                    <li>
+                        <a href="{{ path('get_all_materials') }}"><i class="icon-hammer"></i> <span>Acabados</span></a>
+                        {#<ul>
+                            <li><a href="{{ path('get_all_zones') }}">Ver todas</a></li>
+                            <li><a href="{{ path('create_zone_get') }}">Crear</a></li>
+                        </ul>#}
+                    </li>
+                    <li>
+                        <a href="{{ path('get_all_uses') }}"><i class="icon-pie-chart"></i> <span>Usos</span></a>
+                        {#<ul>
+                            <li><a href="{{ path('get_all_zones') }}">Ver todas</a></li>
+                            <li><a href="{{ path('create_zone_get') }}">Crear</a></li>
+                        </ul>#}
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a href="#"><i class="icon-list-numbered"></i> <span>Formatos</span></a>
+
+                        <ul>
+                            <li><a href="{{ path('get_all_formats') }}"><i class="icon-list"></i>Ver todos</a></li>
+                            <li><a href="{{ path('create_format_get') }}"><i class="icon-plus-circle2"></i>Crear</a></li>
+                        </ul>
+                    </li>
+
+
+                    </ul>
+
+            </div>
+        </div>
+        <!-- /main navigation -->
+
+    </div>
+</div>
+<!-- /main sidebar -->

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+
+
+{% block body %}
+{#{{ dump(orders) }}#}
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title text-center">Pedidos</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <table class="table datatable-basic table-bordered">
+            <thead>
+            <tr>
+                <th>Referencia</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Fecha</th>
+                <th>Unidades</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr class="text-center">
+                    <td><a href="{{ path('show_order',{ 'id' : order.id }) }}">{{ order.reference }}</a></td>
+                    <td>{{ order.user.name }}</td>
+                    <td>{{ order.user.surname }}</td>
+                    <td>{{ order.user.email }}</td>
+                    <td>{{ order.user.phone }}</td>
+                    <td >{{ order.createdAt|date("m/d/Y")  }}</td>
+                    <td>{{ order.quantity }}</td>
+             {#       <td class="text-center">
+
+
+                        <select name="stock" id="stock" class="select">
+                            {% set totalStock = 0 %}
+                            {%  for stocks in order.stock %}
+                                {% set totalStock = totalStock + stocks.stock %}
+                            {% endfor %}
+                            <option value=""> Total: {{ totalStock }}</option>
+                            {%  for stocks in order.stock %}
+
+                                <option value="{{ stocks.warehouse }}">{{ stocks.warehouse }} - {{ stocks.stock }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </td>#}
+                    <td class="text-center">
+                        <a href="{{ path('show_order',{ 'id' : order.id }) }}" class="text-default" title="Ver orden">
+                            <i class="icon-search4"></i> Ver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /basic datatable -->
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src=" {{ asset('js/pages/datatables_basic.js') }}"></script>
+
+{% endblock %}

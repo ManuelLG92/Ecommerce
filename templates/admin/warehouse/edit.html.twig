@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    {%  include 'warehouse/_form.html.twig' with {action : path('edit_warehouse_put'), warehouse : warehouse , modo : "editar" , btn_form : "Editar"}  %}
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/warehouse/CreateAndEditWarehouseForm.js') }}"></script>
+{% endblock %}

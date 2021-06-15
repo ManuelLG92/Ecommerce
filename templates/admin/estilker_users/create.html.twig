@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/customStyles.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/estilker_users/_form.html.twig' with { action: path('create_estilker_user_post') ,modo : 'crear',} %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/app/users/estilker_user_form.js') }}"></script>
+
+{% endblock %}

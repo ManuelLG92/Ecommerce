@@ -1,0 +1,28 @@
+<div class="d-md-none">
+    <h1 class="text-center relationed-products">Productos relacionados</h1>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for index, relational in relationally %}
+            {% if index == 0 %}
+            <div class="carousel-item active">
+                {% else %}
+                <div class="carousel-item">
+                    {% endif %}
+
+                    <div class="card w-100">
+                        <a href="{{ path('site_product_show', {'id' : relational.id}) }}"
+                           class="text-decoration-none text-dark">
+                            <img onerror='this.src="{{ asset('product_images/image_not_found.png' ) }}"'
+                                 src="{{ asset('product_images/' ~ relational.imageCover) }}"
+                                 class="card-img-top" alt="{{ relational.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ relational.name }}</h5>
+                                <p class="card-text text-center">{{ relational.idFormat.name }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
